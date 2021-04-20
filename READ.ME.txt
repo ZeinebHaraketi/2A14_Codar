@@ -1,0 +1,14 @@
+Projet web 2A: réalisé par l'équipe "Codar"
+
+
+Ma Tache: Gestion des Produits 
+          Gestion des Categories
+          
+ Environnement de Travail:
+ -HTML
+ -CSS
+ -Javascript 
+ -Bootstrap
+ -PHP
+ -MySQL
+ -Git
