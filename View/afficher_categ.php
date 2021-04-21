@@ -361,8 +361,8 @@ $listcat=$cat->affichercateg();
                      </td>
 
                    </tr> 
-                   <?PHP
-				      }
+                  <?PHP
+				           }
 		  	         ?>
                     
                   </tbody>

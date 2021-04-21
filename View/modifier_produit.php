@@ -1,7 +1,6 @@
 <?php  
-
 include "../Controller/produitC.php";
-include_once 'C:/wamp64/www/PROJET1/Model/produit.php';
+include_once '../Model/produit.php';
 //include "../Model/produit.php";
 
 
@@ -26,7 +25,7 @@ if (
         $_POST['prix'],
         $_POST['quantite']
         );
-        $associC->modifierproduit($associ, $_GET['id_produit']);
+        $associC->modifierproduit($associ,$_GET['id_produit']);
         
         header('Location:../View/afficher_produit.php');
     } else
@@ -38,7 +37,7 @@ if (
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+ <head>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -86,12 +85,13 @@ if (
 
 
                     <div class="container-fluid">
-                
+
                         <div>
-                            <form method="POST" action="modifier_produit.php">
+                        <!--modifier_produit.php-->
+                            <form method="POST" action="">
                                 <div class="form-group">
                                     <label for="id_produit">id_produit</label>
-                                    <input type="int" class="form-control" name="id_produit" id="id_produit" value="<?php echo $associ['id_produit']; ?>" disabled>
+                                    <input type="int" class="form-control" name="id_produit" id="id_produit" value="<?php echo $associ['id_produit']; ?>">
                                 </div>
 
                                 <div class="form-group">
@@ -106,18 +106,18 @@ if (
 
                                 <div class="form-group">
                                     <label for="prix">prix</label>
-                                    <input type="float" class="form-control" name="prix" rows="10" id="prix" value="<?php echo $associ['prix']; ?>" >
+                                    <input type="float" class="form-control" name="prix" rows="10" value="<?php echo $associ['prix']; ?>" >
                                 </div>
 
                                 <div class="form-group">
                                     <label for="quantite">quantite</label>
-                                    <input type="int" class="form-control" name="quantite" id="quantite"  value="<?php echo $associ['quantite']; ?>">
+                                    <input type="int" class="form-control" name="quantite" value="<?php echo $associ['quantite']; ?>">
                                 </div>
                            
 
 
 
-                                <button type="submit" value="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" value="Envoyer" class="btn btn-primary">Submit</button>
 
                             </form>
                         </div>
@@ -156,11 +156,11 @@ if (
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-<?php
-} else {
-            echo "error de chargement";
-        }
-?>
-</body>
+    <?php
+                } else {
+                    echo "error de chargement";
+                }
+    ?>
+ </body>
 
 </html>

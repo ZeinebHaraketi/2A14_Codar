@@ -1,39 +1,40 @@
-<?php
-include "../Controller/categorieC.php";
-include_once '../Model/categorie.php';
+<?php  
+
+include "../Controller/produitC.php";
+include_once '../Model/produit.php';
+//include "../Model/produit.php";
 
 
-
+$produitC=new produitC();
 $error = "";
-
-$catC=new categorieC();
-
 if (
-    
-    isset($_POST["nom_categ"]) && 
-    isset($_POST["descriptionc"]) 
-   )
-{
+    isset($_POST["nom_produit"]) && 
+    isset($_POST["categorie"]) &&
+    isset($_POST["prix"]) && 
+    isset($_POST["quantite"]) 
+) {
     if (
-        
-        !empty($_POST["nom_categ"]) && 
-        !empty($_POST["descriptionc"])
-        )
-    {
-            $cat = new categorie
-            (
-                $_POST['nom_categ'],
-                $_POST['descriptionc']
-            );
-            $catC->modifiercategorie($cat, $_GET['id_categ']);
-            //header('Location:../View/afficher_categ.php');
-            header('refresh:5;url=afficher_categ.php');
+    !empty($_POST["nom_produit"]) && 
+    !empty($_POST["categorie"]) && 
+    !empty($_POST["prix"]) && 
+    !empty($_POST["quantite"])
 
-    }
-    else 
-    $error = "Missing information";
+    ) {
+        $user = new produit(
+            $_POST['nom_produit'],
+        $_POST['categorie'],
+        $_POST['prix'],
+        $_POST['quantite']
+        );
+        $produitC->modifierproduit($user,$_GET['id_produit']);
+        
+        header('Location:../View/afficher_produit.php');
+        header('refresh:5;url=afficher_produit.php');
+    } else
+        echo "Missing information";
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +47,7 @@ if (
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Modifier Categorie</title>
+    <title>Modifier Produit</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -78,34 +79,42 @@ if (
                 <div id="error">
                     <?php echo $error; ?>
                 </div>
-
+ 
                 <?php
-                if (isset($_GET['id_categ'])) {
-                    $cat = $catC->recuperercategorie($_GET['id_categ']); 
+                if (isset($_GET['id_produit'])) {
+                    $user = $produitC->recupererproduit($_GET['id_produit']);
                 ?>
 
 
                     <div class="container-fluid">
                 
                         <div>
-                        <!--modifier_categ.php-->
                             <form method="POST" action="">
                                 <div class="form-group">
-                                    <label for="id_categ">id_categ</label>
-                                    <input type="int" class="form-control" name="id_categ" id="id_categ" value="<?php echo $cat['id_categ']; ?>" disabled>
+                                    <label for="id_produit">id_produit</label>
+                                    <input type="text" class="form-control" name="id_produit" id="id_produit" value="<?php echo $user['id_produit']; ?>" readonly>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="$nom_categ">$nom_categ</label>
-                                    <input type="string" class="form-control" name="nom_categ" id="nom_categ" value="<?php echo $cat['nom_categ']; ?>">
+                                    <label for="nom_produit">nom_produit</label>
+                                    <input type="text" class="form-control" name="nom_produit" id="nom_produit" value="<?php echo $user['nom_produit']; ?>">
                                 </div>
                                   
                                 <div class="form-group">
-                                    <label for="categorie">descriptionc</label>
-                                    <input type="string" class="form-control" name="descriptionc" id="descriptionc" value="<?php echo $cat['descriptionc']; ?>">
+                                    <label for="categorie">categorie</label>
+                                    <input type="text" class="form-control" name="categorie" id="categorie" value="<?php echo $user['categorie']; ?>">
                                 </div>
 
-                                
+                                <div class="form-group">
+                                    <label for="prix">prix</label>
+                                    <input type="text" class="form-control" name="prix" rows="10" id="prix" value="<?php echo $user['prix']; ?>" >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="quantite">quantite</label>
+                                    <input type="text" class="form-control" name="quantite" id="quantite"  value="<?php echo $user['quantite']; ?>">
+                                </div>
+                           
 
 
 
@@ -132,7 +141,6 @@ if (
     </div>
     <!-- End of Page Wrapper -->
 
- 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -149,10 +157,8 @@ if (
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
 <?php
-} 
-else {
+} else {
             echo "error de chargement";
         }
 ?>

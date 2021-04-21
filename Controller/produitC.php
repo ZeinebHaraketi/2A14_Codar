@@ -112,6 +112,7 @@ class produitC
   $req->bindValue(':id_produit', $id_produit);
   try {
       $req->execute();
+      echo "Supprimees avec succees ! ";
 
   } 
   catch (Exception $e) {
@@ -133,12 +134,13 @@ function recupererproduit($id_produit){
         die('Erreur: '.$e->getMessage());
     }
 }
-function modifierproduit($produit,$id_produit)
+
+/*function modifierproduit($produit,$id_produit)
     {
         
             try {
                 $db = config::getConnexion();
-                $sql= "UPDATE produit SET nom_produit =:nom_produit,categorie = :categorie, prix = :prix WHERE id_produit =".$_GET['id_produit'] ;
+                $sql= "UPDATE produit SET nom_produit =:nom_produit,categorie =:categorie, prix =:prix WHERE id_produit =".$_GET['id_produit'] ;
                 
                 $query = $db->prepare($sql);
                 //  $query->bindValue(':id',1);
@@ -155,13 +157,58 @@ function modifierproduit($produit,$id_produit)
                 $e->getMessage();
             }
         
+    }*/
+
+
+
+
+/*function modifierproduit($produit,$id_produit)
+  {
+    $sql= "UPDATE produit SET nom_produit=: 'nom_produit', categorie=:categorie,prix=:prix,quantite=:quantite WHERE id_produit=:$id_produit' ";
+    $db = config::getConnexion();
+       
+        try
+        {
+            $db->query($sql);
+        }
+        catch (Exception $e)
+        {
+            die('Erreur: '.$e->getMessage());
+        }
+
+
+  
+    }*/
+ function modifierproduit($produit,$id_produit)
+ {
+    try
+    {
+        $db = config::getConnexion();
+				$query = $db->prepare(
+					'UPDATE produit SET 
+						nom_produit = :nom_produit, 
+						categorie = :categorie,
+						prix = :prix,
+						quantite = :quantite
+						
+					WHERE id_produit = :id_produit'
+				);
+				$query->execute([
+					'nom_produit' => $produit->getNom(),
+					'categorie' => $produit->getCategorie(),
+					'prix' => $produit->getPrix(),
+					'quantite' => $produit->getQuantite(),
+					
+					'id_produit' => $id_produit
+				]);
+				echo $query->rowCount() . " records UPDATED successfully <br>";
+    } 
+    catch (PDOException $e)
+     {
+        $e->getMessage();
     }
-
-
+ }
 
 }
-
-
-
 
 ?>

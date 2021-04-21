@@ -33,7 +33,7 @@ $listeproduit=$produit->afficherproduit();
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="../assets/index.html" class="nav-link">Home</a>
+        <a href="../../index.html" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -309,7 +309,6 @@ $listeproduit=$produit->afficherproduit();
                     <th>Categorie</th>
                     <th>Prix</th>
                     <th>Quantite</th>
-                    <th>Fonctionnalités</th>
                   </tr>
                   </thead>
 				  
