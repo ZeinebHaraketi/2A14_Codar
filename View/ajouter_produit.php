@@ -165,7 +165,7 @@ if (
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="../assets/index.html" class="brand-link">
-      <img src="../assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="../assets/dist/img/LOGO.png" alt="Logo Fagito" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Fagito</span>
     </a>
 
@@ -511,7 +511,7 @@ if (
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="ajouter_produit.php" method="POST" enctype="multipart/form-data" name="myform">
+              <form action="ajouter_produit.php" method="POST" enctype="multipart/form-data" name="myform" onsubmit="test()">
 			  
 			    <!-- Produit-->
                 <div class="card-body">
@@ -573,7 +573,8 @@ if (
                 <!-- /.card-body -->
                 
                 <div class="card-footer">
-                  <button type="submit" value="envoyer" class="btn btn-primary">Ajouter</button>
+                  <button type="submit" value="envoyer" class="btn btn-primary" onclick="ajout()">Ajouter</button>
+				  
                 </div>
 				
               </form>
@@ -581,7 +582,57 @@ if (
             </div>
             <!-- /.card -->
 
-
+            <script>
+			function ajout()
+			{
+				
+				return alert(" Ajout avec succées ! ");
+				
+			}
+			
+			function saisie()
+			{
+				var mot= document.getElementbyId('nomP');
+				var mot1= document.getElementbyId('cat');
+				var mot2= document.getElementbyId('prix');
+				var mot3= document.getElementbyId('stock');
+				var test= true;
+				
+				if (mot == "")
+				{
+					alert("Un champ n'est pas remplie");
+                    test=false;
+				}
+				else{
+					if (mot1 == ""){
+						alert("Un champ n'est pas remplie");
+                        test=false;
+					}
+					else 
+					{
+						if (mot2 == "")
+						{
+					    alert("Un champ n'est pas remplie");
+                        test=false;
+					    }
+					else {
+						if (mot3 == ""){
+					alert("Un champ n'est pas remplie");
+                    test=false;
+					
+					                   }
+				        }
+				    }
+				
+				}
+				else
+				{
+				alert("tous les champs sont remplis ");
+				test=true;
+				}
+			return test;
+			}
+			</script>
             
           </div>
           <!--/.col (right) -->
@@ -596,23 +647,42 @@ if (
 <script type="text/javascript">
   function test()
   {
+	  var test= true;
     if (document.myform.nom_produit.value.length == 0)
     {
-        alert("veuillez remplir le champ");
+        alert("champ nom vide !");
+		test= false;
     }
-    if (document.myform.categorie.value.length == 0)
-    {
-        alert("veuillez remplir le champ");
-    }
-    if (document.myform.prix.value.length == 0)
-    {
-        alert("veuillez remplir le champ");
-    }
-    if (document.myform.quantite.value.length == 0)
-    {
-        alert("veuillez remplir le champ");
-    }
-
+    else 
+	{
+	  if (document.myform.categorie.value.length == 0)
+	  {
+		  alert("champ categorie vide !"); 
+		  test= false;
+	  }
+	  else
+	  {
+		 if (document.myform.prix.value.length == 0)
+		 {
+			 alert("champ prix vide !");
+			 test= false;
+		 }
+		 else
+		 {
+			 if (document.myform.quantite.value.length == 0)
+			 {
+				 alert("champ quantite vidde !");
+				 test= false;
+			 }
+		 }
+	  }
+	}
+	else
+	{
+		alert(" Ajout avec succées ! ");
+		test=true;
+	}
+return test;
 
   }
   

@@ -93,19 +93,7 @@ class produitC
   
   function supprimerproduit($id_produit)
   {
-  /*
-   $sql= "DELETE FROM produit WHERE nom_produit='$nom_produit' ";
-
-   try{
-    $req=$db->query($sql);
-
-      }
-    catch (Exception $e)
-      {
-    die('Erreur: '.$e->getMessage());
-      }  
-
-  }*/
+ 
   $sql = "DELETE FROM produit WHERE id_produit = :id_produit";
   $db = config::getConnexion();
   $req = $db->prepare($sql);
@@ -118,7 +106,7 @@ class produitC
   catch (Exception $e) {
       die('Erreur: ' . $e->getMessage());
   }
-}
+ }
 
 function recupererproduit($id_produit){
     $sql="SELECT * from produit where id_produit =$id_produit";
@@ -133,7 +121,38 @@ function recupererproduit($id_produit){
     catch (Exception $e){
         die('Erreur: '.$e->getMessage());
     }
-}
+ }
+/*
+function rechercherproduit($id_produit)
+{
+    $sql="SELECT * from produit where id_produit=$id_produit";
+    $db = config::getConnexion();
+    try{
+    $req=$db->query($sql);
+    return $req;
+    }
+    catch (Exception $e){
+        die('Erreur: '.$e->getMessage());
+    }
+}*/
+/*function rechercherproduit($nom_produit) {
+    $sql = "SELECT * from produit where nom_produit=:nom_produit";
+    $db = config::getConnexion();
+    try {
+        $query = $db->prepare($sql);
+        $query->execute([
+            'nom_produit' => $produit->getNom(),
+        ]);
+        $result = $query->fetchAll();
+        return $result;
+    }
+    catch (PDOException $e) {
+        $e->getMessage();
+    }
+
+
+}*/
+
 
 /*function modifierproduit($produit,$id_produit)
     {
@@ -209,6 +228,77 @@ function recupererproduit($id_produit){
     }
  }
 
+ function trierproduit()
+ {
+     $sql = "SELECT * from produit ORDER BY prix DESC";
+     $db = config::getConnexion();
+     try {
+         $req = $db->query($sql);
+         return $req;
+     } 
+     catch (Exception $e)
+      {
+         die('Erreur: ' . $e->getMessage());
+     }
+ }
+
+
+  function recherche($search_value)
+        {
+            $sql="SELECT * FROM produit where id_produit like '$search_value' or nom_produit like '%$search_value%' or prix like '%$search_value%' or quantite like '%$search_value%' or id_produit like '%$search_value%'  ";
+    
+            //global $db;
+            $db =Config::getConnexion();
+    
+            try{
+                $result=$db->query($sql);
+    
+                return $result;
+    
+            }
+            catch (Exception $e){
+                die('Erreur: '.$e->getMessage());
+            }
+        }
+
+
+
+// Pagination
+
+ function AfficherproduitPaginer($page, $perPage)
+    {
+        $start = ($page > 1) ? ($page * $perPage) - $perPage : 0;
+        $sql = "SELECT * FROM produit LIMIT {$start},{$perPage}";
+        $db = config::getConnexion();
+        try 
+        {
+            $liste = $db->prepare($sql);
+            $liste->execute();
+            $liste = $liste->fetchAll(PDO::FETCH_ASSOC);
+            return $liste;
+        } 
+        catch (Exception $e) 
+        {
+            die('Erreur: ' . $e->getMessage());
+        }
+    }
+    
+    
+    
+    function calcTotalRows($perPage)
+    {
+        $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM produit";
+        $db = config::getConnexion();
+        try {
+    
+            $liste = $db->query($sql);
+            $total = $db->query("SELECT FOUND_ROWS() as total")->fetch()['total'];
+            $pages = ceil($total / $perPage);
+            return $pages;
+        } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage());
+        }
+    }
 }
 
 ?>

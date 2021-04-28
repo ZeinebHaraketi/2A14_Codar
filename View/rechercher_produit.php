@@ -1,27 +1,21 @@
 <?php
 include "../Controller/produitC.php";
+include_once '../Model/produit.php';
 $produit=new produitC();
-//$produitC = new produitC();
+
 //$listeproduit=$produit->afficherproduit();
+/*if (isset($_POST['nom_produit']))
+{
+	            $nom_produit=$_POST["nom_produit"];
+				//$promotion1C=new promotionC();
+				
+				
 
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$perpage = isset($GET['per-page']) && $_GET['per-page'] <= 50 ? (int)$_GET['per-page'] : 3;
-
-//echo $page;
-//echo $perpage;
-
-
-$listeproduit = $produit->AfficherproduitPaginer($page, $perpage);
-$totalP = $produit->calcTotalRows($perpage);
-
-if(isset($_GET['recherche']))
-                       {
-                        $search_value=$_GET["recherche"];
-                        
-                        $listeproduit= $produit->recherche($search_value);
-                        }
-                        //$listpays= $payC->sortv();
-
+*/
+if (isset($_POST['nom_produit']))
+{
+  $nom_produit= $_POST["nom_produit"];
+$listeproduit=$produit->rechercher_produit($nom_produit);
 
 ?>
 
@@ -30,7 +24,6 @@ if(isset($_GET['recherche']))
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="10">
   <title>Fagito </title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -75,7 +68,6 @@ if(isset($_GET['recherche']))
               <div class="input-group-append">
                 <button class="btn btn-navbar" type="submit" value="submit">
                   <i class="fas fa-search"></i>
-				  
                 </button>
                 <button class="btn btn-navbar" type="button" data-widget="navbar-search">
                   <i class="fas fa-times"></i>
@@ -176,13 +168,7 @@ if(isset($_GET['recherche']))
                   <p>ChartJS</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="../assets/charts/flot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
-                </a>
-              </li>
-              
+               
             </ul>
           </li>
 		  
@@ -338,26 +324,14 @@ if(isset($_GET['recherche']))
               <!-- /.card-header -->
 			  
 			  <!-- Recherche-->
-			  <br>
-			           <div class="form-group">
+			  <div class="form-group">
                             <div class="input-group input-group-lg">
-                                <!--<input type="search" class="form-control form-control-lg" placeholder="entrer votre produit" value="">
-								-->
-
-                                   <form method="get" action="afficher_produit.php"  class="mb-3">
-<input type="text" class="form-control" name="recherche" placeholder="product">
-<br>
-<input type="submit" class="btn btn-primary"  value="Chercher">
-<style>
-								  input{
-                                        margin: 13px 12px 12px 10px;
-                                        }
-								  </style>
-</form>
-
-                            
-
-                                
+                                <input type="search" class="form-control form-control-lg" placeholder="entrer votre produit" value="">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 			  
@@ -385,6 +359,7 @@ if(isset($_GET['recherche']))
                  <a href="ajouter_produit.php" class="btn btn-primary" style="float:right;">Add New Record</a>
                   </h2>
                   --> 
+				  <!--
 				  <?php
 				  foreach($listeproduit as $row){
 				  ?>
@@ -407,42 +382,32 @@ if(isset($_GET['recherche']))
                                      
 									  
                      </td>
-
-                   </tr> 
-                   <?PHP
-				      }
-		  	         ?>
                     
-                  
-				  </tbody>
-				  
-				  <div>
-				  <a class="btn btn-success" href="trier_produit.php?id_produit=<?PHP echo $row['nom_produit']; ?>">Trier </a>
-				  <!--
-				  <a class="btn btn-primary"  href="afficher_produit.php?id_produit=<?PHP echo $row['nom_produit']; ?>">Retour </a>
-				  -->
-				  				  <a class="btn btn-primary" onclick="refresh()">Retour </a>
-								  <style>
-								  button{
-                                        13px 12px 12px 10px;
-                                        }
-								  </style>
-								 
-				  </div>
-                                  
-				</table>
-				
-				<button class="btn btn-primary" onclick="print('http://localhost/Projet1/View/afficher_produit.php')">Imprimer le PDF</button>
-				
-				<?php 
-				for ($x = 1; $x <= $totalP; $x++) :
-
-?>
-
-    <a href="?page=<?php echo $x; ?>&per-page=<?php echo $perpage; ?>"><?php echo $x; ?></a>
-
-<?php endfor; ?>
-				
+                   </tr> 
+				    <a class="btn btn-success" href="trier_produit.php?id_produit=<?PHP echo $row['nom_produit']; ?>">Trier </a>
+				    <a class="btn btn-primary" href="afficher_produit.php?id_produit=<?PHP echo $row['nom_produit']; ?>">Retour </a>
+					-->
+                   <?PHP
+}
+		  	         ?>
+					
+					 <tr>
+                        <td><?= $result['nom_produit'] ?></td>
+                          <td>
+                             <?= $result['categorie']?></td>
+							 <td><?= $result['prix'] ?></td>
+							 <td><?= $result['quantite'] ?></td>
+				   
+                  </tbody>
+				 <a class="btn btn-success" href="rechercher_produit.php"> Recherche</a>
+                </table>
+				  <?php
+                  }
+                    else {
+                        echo "<div> INTROUVABLE !!! </div>";
+                    }
+                
+                ?>
 				<script>
 			function Supp()
 			{
@@ -450,25 +415,6 @@ if(isset($_GET['recherche']))
 				return alert(" Supprimer Produit avec succées ! ");
 				
 			}
-			 function print(pdf)
-			 {
-                    // Créer un IFrame.
-        var iframe = document.createElement('iframe');  
-        // Cacher le IFrame.    
-        iframe.style.visibility = "hidden"; 
-        // Définir la source.    
-        iframe.src = pdf;        
-        // Ajouter le IFrame sur la page Web.    
-        document.body.appendChild(iframe);  
-        iframe.contentWindow.focus();       
-        iframe.contentWindow.print(); // Imprimer.
-             }
-			 /*$('.printMe').click(function print(){
-             window.print();
-});*/
-           function refresh(){
-			   window.location.reload();
-		   }
 			
 	</script>
               </div>

@@ -1,36 +1,14 @@
 <?php
 include "../Controller/produitC.php";
 $produit=new produitC();
-//$produitC = new produitC();
-//$listeproduit=$produit->afficherproduit();
-
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$perpage = isset($GET['per-page']) && $_GET['per-page'] <= 50 ? (int)$_GET['per-page'] : 3;
-
-//echo $page;
-//echo $perpage;
-
-
-$listeproduit = $produit->AfficherproduitPaginer($page, $perpage);
-$totalP = $produit->calcTotalRows($perpage);
-
-if(isset($_GET['recherche']))
-                       {
-                        $search_value=$_GET["recherche"];
-                        
-                        $listeproduit= $produit->recherche($search_value);
-                        }
-                        //$listpays= $payC->sortv();
-
+$listeproduit=$produit->trierproduit();
 
 ?>
-
 <!-- html -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="10">
   <title>Fagito </title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -75,7 +53,6 @@ if(isset($_GET['recherche']))
               <div class="input-group-append">
                 <button class="btn btn-navbar" type="submit" value="submit">
                   <i class="fas fa-search"></i>
-				  
                 </button>
                 <button class="btn btn-navbar" type="button" data-widget="navbar-search">
                   <i class="fas fa-times"></i>
@@ -234,7 +211,7 @@ if(isset($_GET['recherche']))
             <ul class="nav nav-treeview">
               
               <li class="nav-item">
-                <a href="../assets/afficher_produit.html" class="nav-link active">
+                <a href="../View/afficher_produit.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Mes Tables</p>
                 </a>
@@ -333,36 +310,9 @@ if(isset($_GET['recherche']))
 
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Afficher Produit </h3>
+                <h3 class="card-title">trier Produit </h3>
               </div>
               <!-- /.card-header -->
-			  
-			  <!-- Recherche-->
-			  <br>
-			           <div class="form-group">
-                            <div class="input-group input-group-lg">
-                                <!--<input type="search" class="form-control form-control-lg" placeholder="entrer votre produit" value="">
-								-->
-
-                                   <form method="get" action="afficher_produit.php"  class="mb-3">
-<input type="text" class="form-control" name="recherche" placeholder="product">
-<br>
-<input type="submit" class="btn btn-primary"  value="Chercher">
-<style>
-								  input{
-                                        margin: 13px 12px 12px 10px;
-                                        }
-								  </style>
-</form>
-
-                            
-
-                                
-                            </div>
-                        </div>
-			  
-			  <!-- card-body-->
-			  
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
@@ -373,8 +323,7 @@ if(isset($_GET['recherche']))
                     <th>Categorie</th>
                     <th>Prix</th>
                     <th>Quantite</th>
-					<!--
-                    <th> Fonctionnalités </th> -->
+                    
                   </tr>
                   </thead>
 				  
@@ -413,35 +362,12 @@ if(isset($_GET['recherche']))
 				      }
 		  	         ?>
                     
+                  </tbody>
                   
-				  </tbody>
-				  
-				  <div>
-				  <a class="btn btn-success" href="trier_produit.php?id_produit=<?PHP echo $row['nom_produit']; ?>">Trier </a>
-				  <!--
-				  <a class="btn btn-primary"  href="afficher_produit.php?id_produit=<?PHP echo $row['nom_produit']; ?>">Retour </a>
-				  -->
-				  				  <a class="btn btn-primary" onclick="refresh()">Retour </a>
-								  <style>
-								  button{
-                                        13px 12px 12px 10px;
-                                        }
-								  </style>
-								 
-				  </div>
-                                  
-				</table>
+                </table>
+				<a class="btn btn-success" href="trier_produit.php?id_produit=<?PHP echo $row['nom_produit']; ?>">Trier </a>
+				<a class="btn btn-primary" href="afficher_produit.php?id_produit=<?PHP echo $row['nom_produit']; ?>">Retour </a>
 				
-				<button class="btn btn-primary" onclick="print('http://localhost/Projet1/View/afficher_produit.php')">Imprimer le PDF</button>
-				
-				<?php 
-				for ($x = 1; $x <= $totalP; $x++) :
-
-?>
-
-    <a href="?page=<?php echo $x; ?>&per-page=<?php echo $perpage; ?>"><?php echo $x; ?></a>
-
-<?php endfor; ?>
 				
 				<script>
 			function Supp()
@@ -450,25 +376,6 @@ if(isset($_GET['recherche']))
 				return alert(" Supprimer Produit avec succées ! ");
 				
 			}
-			 function print(pdf)
-			 {
-                    // Créer un IFrame.
-        var iframe = document.createElement('iframe');  
-        // Cacher le IFrame.    
-        iframe.style.visibility = "hidden"; 
-        // Définir la source.    
-        iframe.src = pdf;        
-        // Ajouter le IFrame sur la page Web.    
-        document.body.appendChild(iframe);  
-        iframe.contentWindow.focus();       
-        iframe.contentWindow.print(); // Imprimer.
-             }
-			 /*$('.printMe').click(function print(){
-             window.print();
-});*/
-           function refresh(){
-			   window.location.reload();
-		   }
 			
 	</script>
               </div>

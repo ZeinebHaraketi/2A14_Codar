@@ -117,7 +117,7 @@ if (
 
 
 
-                                <button type="submit" value="Envoyer" class="btn btn-primary">Submit</button>
+                                <button type="submit" value="Envoyer" class="btn btn-primary" onclick="Modif()">Submit</button>
 
                             </form>
                         </div>
@@ -161,6 +161,16 @@ if (
                     echo "error de chargement";
                 }
     ?>
+	
+	<script>
+			function Modif()
+			{
+				
+				return alert(" Modifier Produit avec succées ! ");
+				
+			}
+			
+			</script>
  </body>
 
 </html>
