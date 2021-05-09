@@ -1,8 +1,29 @@
 <?php
 include "../Controller/categorieC.php";
 $cat=new categorieC();
-$listcat=$cat->affichercateg();
+//$listcat=$cat->affichercateg();
 
+
+//pagination
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$perpage = isset($GET['per-page']) && $_GET['per-page'] <= 50 ? (int)$_GET['per-page'] : 3;
+
+//echo $page;
+//echo $perpage;
+
+
+$listcat = $cat->AfficherproduitPaginer($page, $perpage);
+$totalP = $cat->calcTotalRows($perpage);
+
+
+
+if(isset($_GET['recherche']))
+                       {
+                        $search_value=$_GET["recherche"];
+                        
+                        $listcat= $cat->recherche($search_value);
+                        }
+                        
 ?>
 <!-- html -->
 <html lang="en">
@@ -14,13 +35,13 @@ $listcat=$cat->affichercateg();
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../View/assets/plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="../View/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../View/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../View/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../assets/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../View/assets/dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -32,10 +53,10 @@ $listcat=$cat->affichercateg();
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="../assets/index.html" class="nav-link">Home</a>
+        <a href="../View/assets/index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+        <a href="#" class="nav-link"><i class="fas fa-phone-alt"></i> Contact</a>
       </li>
     </ul>
 
@@ -82,8 +103,8 @@ $listcat=$cat->affichercateg();
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../assets/index.html" class="brand-link">
-      <img src="../assets/dist/img/LOGO.png" alt="Logo Fagito" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <a href="../View/assets/index.html" class="brand-link">
+      <img src="../View/assets/dist/img/LOGO.png" alt="Logo Fagito" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Fagito</span>
     </a>
 
@@ -92,7 +113,7 @@ $listcat=$cat->affichercateg();
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="../View/assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">Zeineb Haraketi</a>
@@ -126,7 +147,7 @@ $listcat=$cat->affichercateg();
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../assets/index.html" class="nav-link">
+                <a href="../View/assets/index.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ma Plateforme</p>
                 </a>
@@ -148,15 +169,16 @@ $listcat=$cat->affichercateg();
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../assets/charts/chartjs.html" class="nav-link">
+                <a  href="../View/linechart/stat.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>ChartJS</p>
+                  <p>Statistique Produit </p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="../assets/charts/flot.html" class="nav-link">
+			  
+			  <li class="nav-item">
+                <a  href="../View/linechart/stat_c.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
+                  <p>Statistique Categorie </p>
                 </a>
               </li>
               
@@ -168,11 +190,18 @@ $listcat=$cat->affichercateg();
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p>
-                Forms
+                Mon Travail
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
+			
+			  <li class="nav-item">
+                <a href="../View/ajouter_produit.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ajouter Produit</p>
+                </a>
+              </li>
               
               <li class="nav-item">
                 <a href="../View/ajouter_categ.php" class="nav-link">
@@ -194,71 +223,28 @@ $listcat=$cat->affichercateg();
               </p>
             </a>
             <ul class="nav nav-treeview">
-              
               <li class="nav-item">
-                <a href="../assets/afficher_categorie.html" class="nav-link active">
+                <a href="../View/afficher_produit.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Mes Tables</p>
+                  <p>Gestion Produit</p>
+                </a>
+              </li>
+			  
+			  
+			  
+              <li class="nav-item">
+                <a href="../View/afficher_categ.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Gestion Categorie</p>
                 </a>
               </li>
               
             </ul>
           </li>
 		  
-          <li class="nav-header">EXAMPLES</li>
-          <li class="nav-item">
-            <a href="../assets/calendar.html" class="nav-link">
-              <i class="nav-icon far fa-calendar-alt"></i>
-              <p>
-                Calendar
-                <span class="badge badge-info right">2</span>
-              </p>
-            </a>
-          </li>
-          
-          <li class="nav-item">
-            <a href="../assets/kanban.html" class="nav-link">
-              <i class="nav-icon fas fa-columns"></i>
-              <p>
-                Planning 
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-envelope"></i>
-              <p>
-                Mailbox
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            
-          </li>
-		  
           
           
-                  
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-search"></i>
-              <p>
-                Search
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              
-              <li class="nav-item">
-                <a href="../assets/search/enhanced.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Recherche</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-		  
-             
-          
+         
           
         </ul>
       </nav>
@@ -304,21 +290,34 @@ $listcat=$cat->affichercateg();
               </div>
               <!-- Search -->
               <br>
-              <form action="">
-              <div class="form-group">
+              
+              <!-- /.card-header -->
+			  
+			   <!-- Recherche-->
+			  <br>
+			           <div class="form-group">
                             <div class="input-group input-group-lg">
-                                <input type="search" class="form-control form-control-lg" placeholder="Type your keywords here" value="Lorem ipsum">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-lg btn-default">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </div>
+                                <!--<input type="search" class="form-control form-control-lg" placeholder="entrer votre produit" value="">
+								-->
+
+                                   <form method="get" action="afficher_categ.php"  class="mb-4">
+                                   <input type="text" class="form-control" name="recherche" placeholder="categorie">
+                                   <br>
+                                   <input type="submit" class="btn btn-primary "  value="Chercher">
+                                   <style>
+							                  	  input{
+                                        margin: 13px 12px 12px 10px;
+                                        }
+								                    </style>
+                                    </form>
+
+                            
+
+                                
                             </div>
                         </div>
-              
-              </form>
-
-              <!-- /.card-header -->
+			  
+			  <!-- card-body -->
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
@@ -327,18 +326,16 @@ $listcat=$cat->affichercateg();
                     <th>Id_Categorie</th>
                     <th>Nom_Categorie</th>
                     <th>Description</th>
+					<!--
                     <th> Fonctionnalités </th>
-                    
+                    --> 
+					
                   </tr>
                   </thead>
 				  
                   <tbody>
                   
-                  <!--
-                  <h2>View Records
-                 <a href="ajouter_produit.php" class="btn btn-primary" style="float:right;">Add New Record</a>
-                  </h2>
-                  --> 
+                  
 				  <?php
 				  foreach($listcat as $row){
 				  ?>
@@ -355,9 +352,11 @@ $listcat=$cat->affichercateg();
                                         <input type="hidden" value=<?PHP echo $row['id_categ']; ?> name="id_categ">
                                         </form>
                                         
+										<!--
                       
                                        <a class="btn btn-primary" href="modifier_categ.php?id_categ=<?PHP echo $row['id_categ']; ?>">Modifier </a>
-                                     
+                                     -->
+									 <a class="btn btn-primary" href="MODIF_C.php?id_categ=<?PHP echo $row['id_categ']; ?>">Modifier </a>
                      </td>
 
                    </tr> 
@@ -366,8 +365,43 @@ $listcat=$cat->affichercateg();
 		  	         ?>
                     
                   </tbody>
+				  
+				  <div>
+				  <a class="btn btn-primary" onclick="refresh()"><i class="fas fa-undo"></i> </a>
+								  <style>
+								  button{
+                                      margin:  13px 12px 12px 10px;
+                                        }
+									
+								  </style>
+				  
+				  </div>
                   
                 </table>
+				<script>
+				 function refresh(){
+			   window.location.reload();
+		                           }
+				
+				</script>
+				
+				<form method="POST" action="../View/linechart/stat_c.php">
+                                        
+										<button type="submit"  id="statistique"  class="btn btn-info" href="../View/linechart/stat_c.php"> <i class="far fa-chart-bar"></i></button>
+										
+                    
+                                        </form>
+				
+				
+				<?php 
+				for ($x = 1; $x <= $totalP; $x++) :
+
+?>
+
+    <a href="?page=<?php echo $x; ?>&per-page=<?php echo $perpage; ?>"><?php echo $x; ?><style>margin:  13px 12px 12px 10px; </style> </a>
+
+<?php endfor; ?>
+				
               </div>
               <!-- /.card-body -->
             </div>
@@ -393,26 +427,26 @@ $listcat=$cat->affichercateg();
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../assets/plugins/jquery/jquery.min.js"></script>
+<script src="../View/assets/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../View/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../assets/plugins/jszip/jszip.min.js"></script>
-<script src="../assets/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../.assets/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="../View/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../View/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../View/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../View/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../View/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../View/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../View/assets/plugins/jszip/jszip.min.js"></script>
+<script src="../View/assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../View/.assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../View/assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../View/assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../View/assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../assets/dist/js/adminlte.min.js"></script>
+<script src="../View/assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../assets/dist/js/demo.js"></script>
+<script src="../View/assets/dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {

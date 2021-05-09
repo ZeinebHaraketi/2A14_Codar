@@ -1,5 +1,6 @@
 <?php
-include "ajouter_categ.php";
+//include "ajouter_categ.php";
+include "../controller/categorieC.php";
 
 $prod = new categorieC();
 

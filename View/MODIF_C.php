@@ -1,35 +1,38 @@
 <?php
-include "../controller/categorieC.php";
+include "../Controller/categorieC.php";
+include_once '../Model/categorie.php';
+
+
+
 $error = "";
 
-// create categorie
-$cat= null;
-// create an instance of the controller
 $catC=new categorieC();
 
 if (
+    
     isset($_POST["nom_categ"]) && 
     isset($_POST["descriptionc"]) 
    )
 {
     if (
+        
         !empty($_POST["nom_categ"]) && 
         !empty($_POST["descriptionc"])
         )
-        {
+    {
             $cat = new categorie
             (
                 $_POST['nom_categ'],
                 $_POST['descriptionc']
             );
-            $catC->ajoutercategorie($cat);
-            header('Location:../View/afficher_categ.php');
+            $catC->modifiercategorie($cat, $_GET['id_categ']);
+            //header('Location:../View/afficher_categ.php');
+            header('refresh:5;url=afficher_categ.php');
 
-        }
+    }
     else 
     $error = "Missing information";
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -182,8 +185,7 @@ if (
               </li>
 			
 			
-			
-               <li class="nav-item">
+              <li class="nav-item">
                 <a href="../View/linechart/stat_c.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p> Statistiques Categorie </p>
@@ -203,8 +205,8 @@ if (
               </p>
             </a>
             <ul class="nav nav-treeview">
-			 <li class="nav-item">
-                <a href="../View/ajouter_produit.php" class="nav-link active">
+			   <li class="nav-item">
+                <a href="../View/ajouter_produit.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                    
                   <p>Ajouter Produit</p>
@@ -213,14 +215,14 @@ if (
 			
 			
               <li class="nav-item">
-                <a href="../View/ajouter_categ.php" class="nav-link active">
+                <a href="../View/ajouter_categ.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                    
                   <p>Ajouter Categorie</p>
                 </a>
               </li>
           
-            
+             
 
           </li>
           <li class="nav-item">
@@ -232,32 +234,45 @@ if (
               </p>
             </a>
             <ul class="nav nav-treeview">
-               <li class="nav-item">
-                <a href="../View/afficher_produit.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Gestion Produit</p>
-                </a>
-              </li>
-			  
-			  
-			  
+              
               <li class="nav-item">
+              
+              
                 <a href="../View/afficher_categ.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Gestion Categorie</p>
+
                 </a>
+            
+              </li>
+              
+            </ul>
+			<ul class="nav nav-treeview">
+              
+              <li class="nav-item">
+              
+              
+                <a href="../View/afficher_produit.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Gestion Produit</p>
+
+                </a>
+            
               </li>
               
             </ul>
           </li>
-         
+          
+		 
               
-            <!-- 
+              
+              <!--
               
             </ul>
           </li>
 		  
           -->
+          
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -295,64 +310,49 @@ if (
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Ajouter Categorie</h3>
+                <h3 class="card-title">Modifier Categorie</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="ajouter_categ.php" method="POST" enctype="multipart/form-data" name="myform">
+			  
+			   <div id="error">
+                    <?php echo $error; ?>
+                </div>
+
+                <?php
+                if (isset($_GET['id_categ'])) {
+                    $cat = $catC->recuperercategorie($_GET['id_categ']); 
+                ?>
+			  
+              <form action="" method="POST">
 			  
 			    <!-- Nom Categorie-->
                 <div class="card-body">
-                
+                   
+				   <div class="form-group">
+                                    <label for="id_categ">id_categ</label>
+                                    <input type="int" class="form-control" name="id_categ" id="id_categ" value="<?php echo $cat['id_categ']; ?>" disabled>
+                                </div>
+				
                   <div class="form-group">
-                    <label>Nom de la  Categorie</label>
-                    <input class="form-control" name="nom_categ" id="nom_categ" placeholder="entrer le nom de la categorie" required>
-                  </div>
+                                    <label for="$nom_categ">$nom_categ</label>
+                                    <input type="string" class="form-control" name="nom_categ" id="nom_categ" value="<?php echo $cat['nom_categ']; ?>">
+                                </div>
+                                  
 				  
 				  <!-- Description-->
-				   <div class="form-group">
-                    <label>Description</label>
-                    <input class="form-control" name="descriptionc"  id="descriptionc" placeholder="entrer la categorie" required>
-                  </div>
+				    <div class="form-group">
+                                    <label for="categorie">descriptionc</label>
+                                    <input type="string" class="form-control" name="descriptionc" id="descriptionc" value="<?php echo $cat['descriptionc']; ?>">
+                                </div>
 				  
 				  
-                 <!-- <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                  </div>
-                  
-                  <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <div class="input-group">
-					
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                      </div>
-					  
-                      <div class="input-group-append">
-                        <span class="input-group-text">Upload</span>
-                      </div>
-					  
-                    </div>
-					
-                  </div>
-				  -->
-				  
-				  <!--
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                  </div>
-				  
-                
-				-->
+                 <button type="submit" value="submit" class="btn btn-primary">Modifier</button>
+				 <button type="reset" value="reset" class="btn btn-danger">Annuler</button>
                 <!-- /.card-body -->
                 </div>
                 
-                <div class="card-footer">
-                  <button type="submit" value="envoyer" class="btn btn-primary">Ajouter</button>
-                </div>
+				
 				
               </form>
 			  
@@ -371,7 +371,7 @@ if (
     
   </div>
 
-
+   
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -397,5 +397,12 @@ $(function () {
   bsCustomFileInput.init();
 });
 </script>
+ <?php
+} 
+else {
+            echo "error de chargement";
+        }
+?>
 </body>
 </html>
+

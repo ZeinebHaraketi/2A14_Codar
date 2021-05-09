@@ -14,6 +14,7 @@ $prodC= new produitC();
 
 
 if (
+    isset($_POST["idC"]) && 
     isset($_POST["nom_produit"]) && 
     isset($_POST["categorie"]) &&
     isset($_POST["prix"]) && 
@@ -21,17 +22,63 @@ if (
    )
 {
   if (
+    !empty($_POST["idC"]) && 
     !empty($_POST["nom_produit"]) && 
     !empty($_POST["categorie"]) && 
     !empty($_POST["prix"]) && 
     !empty($_POST["quantite"])
      )
   {
+	$image = $_FILES['image'];
+	
+	//$fileName = $_FILES['file']['name'];
+	$image = $_FILES['image']['name'];
+	$fileTmpName = $_FILES['image']['tmp_name'];
+	$fileSize = $_FILES['image']['size'];
+	$fileError = $_FILES['image']['error'];
+	$fileType = $_FILES['image']['type'];
+	
+	//$fileExt = explode('.',$fileName);
+	$fileExt = explode('.',$image);
+	$fileActualExt = strtolower(end($fileExt));
+	
+	$allowed = array('jpg','jpeg','png');
+	
+	if (in_array($fileActualExt, $allowed))
+	{
+		if ($fileError === 0)
+		{
+			if ($fileSize < 1000000)
+			{
+				$fileNameNew = uniqid('',true).".".$fileActualExt;
+				$fileDestination = '../View/assets/images/'.$fileNameNew;
+				move_uploaded_file($fileTmpName,$fileDestination);
+				echo "image uploaded with success !";
+			}
+			else 
+			{
+				echo "your file  is too big !";
+			}
+		}
+		else 
+		{
+			echo "There was an error uploading your file !";
+		}
+	}else 
+	{
+		echo "you cannot upload files of this type !";
+	}
+	  
+	  
+	  
     $prod= new produit(
+	    $_POST['idC'],
         $_POST['nom_produit'],
         $_POST['categorie'],
         $_POST['prix'],
-        $_POST['quantite']
+        $_POST['quantite'],
+		$_FILES['image']['name']
+		//$_POST['image']
     ); 
     $prodC->ajouterproduit($prod);
     header('Location:afficher_produit.php');
@@ -40,47 +87,7 @@ if (
             $error = "Missing information";
 }
 
-//2
-/*
-$error = "";
 
-// create article
-$prod = null;
-
-// create an instance of the controller
-$prodC = new produitC();
-if (
-    isset($_POST["nom_plat"]) &&
-    isset($_POST["categorie"]) &&
-    isset($_POST["prix"]) &&
-    isset($_POST["quantite"]) 
-
-) {
-
-    if (
-        !empty($_POST["nom_plat"]) &&
-        !empty($_POST["categorie"]) &&
-        !empty($_POST["prix"]) &&
-        !empty($_POST["quantite"]) 
-
-    ) {
-        $prod = new produit(
-            $_POST['nom_plat'],
-            $_POST['categorie'],
-            $_POST['prix'],
-            $_POST['quantite']
-            
-
-        );
-        $prodC->ajouterproduit($prod);
-        header('Location:afficher_produit.php');
-       // header('Location:../front/blogs.php');
-    } else
-        echo "Missing information";
-        
-}
-
-*/
 ?>
 
 
@@ -95,9 +102,10 @@ if (
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../View/assets/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../assets/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../View/assets/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../View/assets/dist/css/adminlte.min.css">
 </head>
 
 
@@ -111,10 +119,10 @@ if (
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="../../index.html" class="nav-link">Home</a>
+        <a href="../../index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+        <a href="#" class="nav-link"><i class="fas fa-phone-alt"></i> Contact</a>
       </li>
     </ul>
 
@@ -164,8 +172,8 @@ if (
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../assets/index.html" class="brand-link">
-      <img src="../assets/dist/img/LOGO.png" alt="Logo Fagito" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <a href="../View/assets/index.html" class="brand-link">
+      <img src="../View/assets/dist/img/LOGO.png" alt="Logo Fagito" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Fagito</span>
     </a>
 
@@ -174,7 +182,7 @@ if (
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="../View/assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">Zeineb Haraketi </a>
@@ -208,7 +216,7 @@ if (
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../assets/index.html" class="nav-link">
+                <a href="../View/assets/index.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ma PlateForme</p>
                 </a>
@@ -227,10 +235,18 @@ if (
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../assets/charts/chartjs.html" class="nav-link">
+               <li class="nav-item">
+                <a href="../View/linechart/stat.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p> Stats Produit </p>
+                  <p> Statistiques Produit </p>
+                </a>
+              </li>
+			  
+			  
+			   <li class="nav-item">
+                <a href="../View/linechart/stat_c.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Statistiques Categorie </p>
                 </a>
               </li>
               
@@ -248,7 +264,7 @@ if (
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../assets/forms/ajouter_produit.html" class="nav-link active">
+                <a href="../View/assets/forms/ajouter_produit.html" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                    
                   <p>Ajouter Produit</p>
@@ -256,26 +272,7 @@ if (
               </li>
           
             </ul>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../assets/forms/modifier_produit.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                   
-                  <p>Modifier Produit</p>
-                </a>
-              </li>
-          
-            </ul>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../assets/forms/ajouter_produit.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                   
-                  <p>Supprimer Produit</p>
-                </a>
-              </li>
-          
-            </ul>
+            
 
           </li>
           <li class="nav-item">
@@ -301,174 +298,13 @@ if (
               
             </ul>
           </li>
-          <li class="nav-header">Metiers</li>
-          <li class="nav-item">
-            <a href="../assets/calendar.html" class="nav-link">
-              <i class="nav-icon far fa-calendar-alt"></i>
-              <p>
-                Calendar
-                <span class="badge badge-info right">2</span>
-              </p>
-            </a>
-          </li>
-          
-          <li class="nav-item">
-            <a href="../assets/kanban.html" class="nav-link">
-              <i class="nav-icon fas fa-columns"></i>
-              <p>
-                Planning
-              </p>
-            </a>
-          </li>
           
 		  
-		  
-		  <!--
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-book"></i>
-              <p>
-                Pages
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              
-              
-              <li class="nav-item">
-                <a href="../examples/projects.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Projects</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/project-add.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Add</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/project-edit.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Edit</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/project-detail.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Detail</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/contacts.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contacts</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/faq.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>FAQ</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/contact-us.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contact us</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-		  -->
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-plus-square"></i>
-              <p>
-                Autres Fonctions 
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Login & Register 
-                    <i class="fas fa-angle-left right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="../assets/examples/login.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Login </p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../assets/examples/register.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Register </p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../assets/examples/forgot-password.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Forgot Password </p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../assets/examples/recover-password.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Recover Password </p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              
-              
-              
-              <li class="nav-item">
-                <a href="../examples/language-menu.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Language Menu</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../assets/examples/404.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Error 404</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../assets/examples/500.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Error 500</p>
-                </a>
-              </li>
+            
               
               
             </ul>
           </li>
-		  
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-search"></i>
-              <p>
-                Search
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              
-              <li class="nav-item">
-                <a href="../search/enhanced.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Enhanced</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          
           
         </ul>
       </nav>
@@ -511,14 +347,19 @@ if (
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="ajouter_produit.php" method="POST" enctype="multipart/form-data" name="myform" onsubmit="test()">
+              <form action="ajouter_produit.php" method="POST" enctype="multipart/form-data" name="myform" onsubmit="saisie()">
 			  
 			    <!-- Produit-->
                 <div class="card-body">
+				
+				  <div class="form-group">
+                    <label>Id Categorie</label>
+                    <input class="form-control" name="idC" id="idC" placeholder="entrer le nom du produit"  required>
+                  </div>
 
                   <div class="form-group">
                     <label>Nom du Produit</label>
-                    <input class="form-control" name="nom_produit" id="nomP" placeholder="entrer le nom du produit" required>
+                    <input class="form-control" name="nom_produit" id="nomP" placeholder="entrer le nom du produit"  required>
                   </div>
 				  
 				  <!-- Categorie-->
@@ -530,7 +371,7 @@ if (
 				  <!-- Prix-->
 				   <div class="form-group">
                     <label>prix</label>
-                    <input class="form-control" name="prix" id="prix" placeholder="entrer le prix" required>
+                    <input class="form-control" name="prix" id="prix" placeholder="entrer le prix"  required>
                   </div>
 				  
 				  <!-- Quantité-->
@@ -538,42 +379,23 @@ if (
                     <label>Quantité</label>
                     <input class="form-control" name="quantite" id="stock" placeholder="entrer la quantité" required>
                   </div>
-				  
-                 <!-- <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                  </div>
-                  
-                  <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <div class="input-group">
-					
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                      </div>
-					  
-                      <div class="input-group-append">
-                        <span class="input-group-text">Upload</span>
-                      </div>
-					  
-                    </div>
-					
-                  </div>
-				  -->
-				  
-				  <!--
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                  </div>
-				  
-                </div>
-				-->
+		
+		
+		          <!-- Image -->
+				  <div class="row form-group">
+                                    <div class="col col-md-3"><label for="file-input" class=" form-control-label">Image</label></div>
+                                    <input type="file" id="file-input" name="image" class="form-control-file">
+                                </div>
+				
                 <!-- /.card-body -->
-                
+                <!--
+                <div class="form-group">
+                 <button value="verification" class="btn btn-success" onclick="saisie()"> Verifie</button>
+                </div>
+                 --> 
+
                 <div class="card-footer">
-                  <button type="submit" value="envoyer" class="btn btn-primary" onclick="ajout()">Ajouter</button>
+                  <button type="submit" value="envoyer" class="btn btn-primary" onclick="ajout()"><i class="fas fa-plus"></i> Ajouter</button>
 				  
                 </div>
 				
@@ -585,8 +407,16 @@ if (
             <script>
 			function ajout()
 			{
-				
-				return alert(" Ajout avec succées ! ");
+				/*
+			  var x= document.forms["myform"]["nomP"].value;
+        if (x== "")
+        {
+           return alert(" Ajout Failed");
+        }
+        else
+        {
+          return alert(" Ajout avec succées ! ");
+        }
 				
 			}
 			
@@ -603,7 +433,8 @@ if (
 					alert("Un champ n'est pas remplie");
                     test=false;
 				}
-				else{
+				else
+        {
 					if (mot1 == ""){
 						alert("Un champ n'est pas remplie");
                         test=false;
@@ -684,7 +515,8 @@ if (
 	}
 return test;
 
-  }
+  }*/
+
   
 </script>
 
@@ -697,15 +529,15 @@ return test;
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../assets/plugins/jquery/jquery.min.js"></script>
+<script src="../View/assets/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../View/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- bs-custom-file-input -->
-<script src="../assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<script src="../View/assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../assets/dist/js/adminlte.min.js"></script>
+<script src="../View/assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../assets/dist/js/demo.js"></script>
+<script src="../View/assets/dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
 $(function () {

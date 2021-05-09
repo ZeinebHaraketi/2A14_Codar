@@ -14,13 +14,13 @@ $listeproduit=$produit->trierproduit();
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../View/assets/plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="../View/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../View/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../View/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../assets/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../View/assets/dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -82,8 +82,8 @@ $listeproduit=$produit->trierproduit();
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../assets/index.html" class="brand-link">
-      <img src="../assets/dist/img/LOGO.png" alt="Logo Fagito" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <a href="../View/assets/index.html" class="brand-link">
+      <img src="../View/assets/dist/img/LOGO.png" alt="Logo Fagito" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Fagito</span>
     </a>
 
@@ -92,7 +92,7 @@ $listeproduit=$produit->trierproduit();
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="../View/assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">Zeineb Haraketi</a>
@@ -126,7 +126,7 @@ $listeproduit=$produit->trierproduit();
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../assets/index.html" class="nav-link">
+                <a href="../View/assets/index.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ma Plateforme</p>
                 </a>
@@ -148,15 +148,16 @@ $listeproduit=$produit->trierproduit();
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../assets/charts/chartjs.html" class="nav-link">
+                <a href="../View/linechart/stat.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>ChartJS</p>
+                  <p> Statistiques Produit </p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="../assets/charts/flot.html" class="nav-link">
+			  
+			   <li class="nav-item">
+                <a href="../View/linechart/stat_c.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
+                  <p> Statistiques Categorie </p>
                 </a>
               </li>
               
@@ -181,22 +182,17 @@ $listeproduit=$produit->trierproduit();
                   <p>Ajouter Produit</p>
                 </a>
               </li>
-              
-            </ul>
-             <!-- Modif Produit-->
-            <ul class="nav nav-treeview">
-              
-              <li class="nav-item">
-              <!--
-                <a href="../View/modifier_produit.php" class="nav-link">
-                -->
-                <a href="../View/modifier_produit.php">
+			  
+			  <!-- Ajout Categorie -->
+			  <li class="nav-item">
+                <a href="../View/ajouter_categ.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Modifier Produit</p>
+                  <p>Ajouter Categorie</p>
                 </a>
               </li>
               
             </ul>
+             
           </li>
 		  
           <li class="nav-item menu-open">
@@ -211,69 +207,22 @@ $listeproduit=$produit->trierproduit();
             <ul class="nav nav-treeview">
               
               <li class="nav-item">
-                <a href="../View/afficher_produit.php" class="nav-link active">
+                <a href="../View/afficher_produit.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Mes Tables</p>
+                  <p>Gestion Produit</p>
+                </a>
+              </li>
+			  
+			  <li class="nav-item">
+                <a href="../View/afficher_categ.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Gestion Categorie</p>
                 </a>
               </li>
               
             </ul>
           </li>
-		  
-          <li class="nav-header">EXAMPLES</li>
-          <li class="nav-item">
-            <a href="../assets/calendar.html" class="nav-link">
-              <i class="nav-icon far fa-calendar-alt"></i>
-              <p>
-                Calendar
-                <span class="badge badge-info right">2</span>
-              </p>
-            </a>
-          </li>
-          
-          <li class="nav-item">
-            <a href="../assets/kanban.html" class="nav-link">
-              <i class="nav-icon fas fa-columns"></i>
-              <p>
-                Planning 
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-envelope"></i>
-              <p>
-                Mailbox
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            
-          </li>
-		  
-          
-          
-                  
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-search"></i>
-              <p>
-                Search
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              
-              <li class="nav-item">
-                <a href="../assets/search/enhanced.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Recherche</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-		  
-             
-          
+		 
           
         </ul>
       </nav>
@@ -323,6 +272,7 @@ $listeproduit=$produit->trierproduit();
                     <th>Categorie</th>
                     <th>Prix</th>
                     <th>Quantite</th>
+					<th>Image</th>
                     
                   </tr>
                   </thead>
@@ -344,7 +294,19 @@ $listeproduit=$produit->trierproduit();
 					<td> <?php echo $row['categorie'];?></td>
 					<td> <?php echo $row['prix'];?></td>
 					 <td> <?php echo $row['quantite'];?></td>
-                     
+					 <!--
+					 <td> <img src="../View/assets/images/sushi.jfif"  width="100" height="100" alt="Image"></td>
+                     -->
+					 <td><?PHP echo "<img  src='../View/assets/images/".$row['image']."' >"; ?>
+					  <style>
+					  img{
+						width: 90px;
+                        height:	90px;					
+					  }
+					  
+					  </style>
+					  
+					  </td>			
                      <td> 
                      <form method="POST" action="../View/supprimer_produit.php">
                                         <button type="submit"  id="supprimer"  class="btn btn-danger" onclick="Supp()">supprimer</button>
@@ -352,7 +314,7 @@ $listeproduit=$produit->trierproduit();
                                         </form>
                                         
                                         
-                                       <a class="btn btn-primary" href="modifier_produit.php?id_produit=<?PHP echo $row['id_produit']; ?>">Modifier </a>
+                                       <a class="btn btn-primary" href="MODIF_P.php?id_produit=<?PHP echo $row['id_produit']; ?>">Modifier </a>
                                      
 									  
                      </td>
@@ -365,8 +327,17 @@ $listeproduit=$produit->trierproduit();
                   </tbody>
                   
                 </table>
-				<a class="btn btn-success" href="trier_produit.php?id_produit=<?PHP echo $row['nom_produit']; ?>">Trier </a>
-				<a class="btn btn-primary" href="afficher_produit.php?id_produit=<?PHP echo $row['nom_produit']; ?>">Retour </a>
+                <div>
+				<a class="btn btn-success" href="trier_produit.php?id_produit=<?PHP echo $row['nom_produit']; ?>"><i class="fas fa-sort"></i></a>
+				<a class="btn btn-primary" onclick="refresh()"><i class="fas fa-undo"></i> </a>
+				<style>
+								  button{
+                                       margin: 13px 12px 12px 10px;
+                                        }
+								  </style>
+				
+				
+				</div>
 				
 				
 				<script>
@@ -376,7 +347,9 @@ $listeproduit=$produit->trierproduit();
 				return alert(" Supprimer Produit avec succées ! ");
 				
 			}
-			
+			function refresh(){
+			   window.location.reload();
+		   }
 	</script>
               </div>
               <!-- /.card-body -->

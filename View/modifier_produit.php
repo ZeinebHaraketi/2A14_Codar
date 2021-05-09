@@ -170,7 +170,7 @@ if (
 				
 			}
 			
-			</script>
+	</script>
  </body>
 
 </html>

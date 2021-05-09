@@ -78,36 +78,7 @@ class categorieC
         die('Erreur: '.$e->getMessage());
     }
   }
-  /*
-  function modifiercategorie($categorie,$id_categ)
-    {
-        
-            try {
-                $db = config::getConnexion();
-                
-                $sql= "UPDATE categorie SET nom_categ=:nom_categ,descriptionc=:descriptionc WHERE id_categ =".$_GET['id_categ'];
-                //$sql= $pdo->query ("UPDATE categorie SET nom_categ=:nom_categ,descriptionc=:descriptionc WHERE id_categ =".$_GET['id_categ']");
-
-
-                $query = $db->prepare($sql);
-
-                
-                
-
-                $query->bindValue(':nom_categ', $categorie->getNomC());
-                $query->bindValue(':descriptionc', $categorie->getDescription());
-                
-                
-                $query->execute();
-                
-
-
-            } 
-            catch (PDOException $e) {
-                $e->getMessage();
-                                   }
-        
-    }*/
+ 
    function modifiercategorie($categorie,$id_categ)
    {
      try 
@@ -133,6 +104,64 @@ class categorieC
         $e->getMessage();
      }
    }
+   
+   //Recherche
+   function recherche($search_value)
+        {
+            $sql="SELECT * FROM categorie where id_categ like '$search_value' or nom_categ like '$search_value' or descriptionc like '%$search_value%'  or id_categ like '%$search_value%'  ";
+    
+            //global $db;
+            $db =Config::getConnexion();
+    
+            try{
+                $result=$db->query($sql);
+    
+                return $result;
+    
+            }
+            catch (Exception $e){
+                die('Erreur: '.$e->getMessage());
+            }
+        }
+
+		
+		
+		// Pagination
+
+ function AfficherproduitPaginer($page, $perPage)
+    {
+        $start = ($page > 1) ? ($page * $perPage) - $perPage : 0;
+        $sql = "SELECT * FROM categorie LIMIT {$start},{$perPage}";
+        $db = config::getConnexion();
+        try 
+        {
+            $liste = $db->prepare($sql);
+            $liste->execute();
+            $liste = $liste->fetchAll(PDO::FETCH_ASSOC);
+            return $liste;
+        } 
+        catch (Exception $e) 
+        {
+            die('Erreur: ' . $e->getMessage());
+        }
+    }
+    
+    
+    
+    function calcTotalRows($perPage)
+    {
+        $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM categorie";
+        $db = config::getConnexion();
+        try {
+    
+            $liste = $db->query($sql);
+            $total = $db->query("SELECT FOUND_ROWS() as total")->fetch()['total'];
+            $pages = ceil($total / $perPage);
+            return $pages;
+        } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage());
+        }
+    }
 
 }
 

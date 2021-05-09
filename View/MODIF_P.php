@@ -1,43 +1,95 @@
-<?php
-include "../controller/categorieC.php";
+<?php  
+include "../Controller/produitC.php";
+include_once '../Model/produit.php';
+//include "../Model/produit.php";
+
+
+$associC=new produitC();
 $error = "";
-
-// create categorie
-$cat= null;
-// create an instance of the controller
-$catC=new categorieC();
-
 if (
-    isset($_POST["nom_categ"]) && 
-    isset($_POST["descriptionc"]) 
-   )
-{
+    
+    //isset ($_POST["submit"]) &&
+    isset($_POST["idC"]) && 
+    isset($_POST["nom_produit"]) && 
+    isset($_POST["categorie"]) &&
+    isset($_POST["prix"]) && 
+    isset($_POST["quantite"]) &&
+	isset ($_POST['image'])
+) {
     if (
-        !empty($_POST["nom_categ"]) && 
-        !empty($_POST["descriptionc"])
-        )
-        {
-            $cat = new categorie
-            (
-                $_POST['nom_categ'],
-                $_POST['descriptionc']
-            );
-            $catC->ajoutercategorie($cat);
-            header('Location:../View/afficher_categ.php');
+	!empty($_POST["idC"]) && 
+    !empty($_POST["nom_produit"]) && 
+    !empty($_POST["categorie"]) && 
+    !empty($_POST["prix"]) && 
+    !empty($_POST["quantite"])
+	//!empty ($_POST['image'])
 
-        }
-    else 
-    $error = "Missing information";
+    ) {
+		
+		$image = $_FILES['image'];
+	
+	$fileName = $_FILES['image']['name'];
+	$fileTmpName = $_FILES['image']['tmp_name'];
+	$fileSize = $_FILES['image']['size'];
+	$fileError = $_FILES['image']['error'];
+	$fileType = $_FILES['image']['type'];
+	
+	$fileExt = explode('.',$fileName);
+	$fileActualExt = strtolower(end($fileExt));
+	
+	$allowed = array('jpg','jpeg','png','jfif','pdf');
+	
+	if (in_array($fileActualExt, $allowed))
+	{
+		if ($fileError === 0)
+		{
+			if ($fileSize < 1000000)
+			{
+				$fileNameNew = uniqid('',true).".".$fileActualExt;
+				$fileDestination = '../View/assets/images/'.$fileNameNew;
+				//$fileDestination = '../View/assets/IMG/'.$fileNameNew;
+				move_uploaded_file($fileTmpName,$fileDestination);
+				echo "image uploaded with success !";
+			}
+			else 
+			{
+				echo "your file  is too big !";
+			}
+		}
+		else 
+		{
+			echo "There was an error uploading your file !";
+		}
+	}else 
+	{
+		echo "you cannot upload files of this type !";
+	}
+		
+	
+        $associ = new produit(
+		$_POST['idC'],
+        $_POST['nom_produit'],
+        $_POST['categorie'],
+        $_POST['prix'],
+        $_POST['quantite'],
+		$_POST['image']
+		//$image 
+        );
+        $associC->modifierproduit($associ,$_GET['id_produit']);
+        
+        header('Location:../View/afficher_produit.php');
+    } else
+        echo "Missing information";
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> Gestion des Categories</title>
+  <title> Gestion de Produits</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -174,16 +226,15 @@ if (
               </p>
             </a>
             <ul class="nav nav-treeview">
-			<li class="nav-item">
+              <li class="nav-item">
                 <a href="../View/linechart/stat.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p> Statistiques Produit </p>
+                  <p> Stats Produit </p>
                 </a>
               </li>
-			
-			
-			
-               <li class="nav-item">
+			  
+			  
+			   <li class="nav-item">
                 <a href="../View/linechart/stat_c.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p> Statistiques Categorie </p>
@@ -203,23 +254,24 @@ if (
               </p>
             </a>
             <ul class="nav nav-treeview">
-			 <li class="nav-item">
-                <a href="../View/ajouter_produit.php" class="nav-link active">
+              <li class="nav-item">
+                <a href="../View/ajouter_produit.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                    
                   <p>Ajouter Produit</p>
                 </a>
               </li>
-			
-			
-              <li class="nav-item">
-                <a href="../View/ajouter_categ.php" class="nav-link active">
+			  
+			  <!-- Gestion Categorie -->
+			  <li class="nav-item">
+                <a href="../View/ajouter_categ.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                    
                   <p>Ajouter Categorie</p>
                 </a>
               </li>
           
+            </ul>
             
 
           </li>
@@ -232,32 +284,29 @@ if (
               </p>
             </a>
             <ul class="nav nav-treeview">
-               <li class="nav-item">
+              
+              <li class="nav-item">
                 <a href="../View/afficher_produit.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Gestion Produit</p>
                 </a>
               </li>
 			  
-			  
-			  
-              <li class="nav-item">
+			  <!-- Gestion -->
+			   <li class="nav-item"> 
                 <a href="../View/afficher_categ.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Gestion Categorie</p>
+                  <p>Gestion Categorie</p> 
+                         
                 </a>
               </li>
               
             </ul>
           </li>
-         
+          
+          
               
-            <!-- 
-              
-            </ul>
-          </li>
-		  
-          -->
+           
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -272,12 +321,12 @@ if (
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Gestion des Categories </h1>
+            <h1>Gestion de Produit </h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Gestion des Categories</li>
+              <li class="breadcrumb-item active">Gestion Produits</li>
             </ol>
           </div>
         </div>
@@ -295,71 +344,80 @@ if (
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Ajouter Categorie</h3>
+                <h3 class="card-title">Modifier Produit</h3>
               </div>
               <!-- /.card-header -->
+			   <?php
+                if (isset($_GET['id_produit'])) {
+                    $associ = $associC->recupererproduit($_GET['id_produit']);
+                ?>
               <!-- form start -->
-              <form action="ajouter_categ.php" method="POST" enctype="multipart/form-data" name="myform">
+              <form action="" method="POST" enctype="multipart/form-data" name="myform">
 			  
-			    <!-- Nom Categorie-->
+			    <!-- Produit-->
                 <div class="card-body">
-                
+
                   <div class="form-group">
-                    <label>Nom de la  Categorie</label>
-                    <input class="form-control" name="nom_categ" id="nom_categ" placeholder="entrer le nom de la categorie" required>
-                  </div>
+                                    <label for="id_produit">id_produit</label>
+                                    <input type="int" class="form-control" name="id_produit" id="id_produit" value="<?php echo $associ['id_produit']; ?>">
+                                </div>
 				  
-				  <!-- Description-->
+				  <div class="form-group">
+                                    <label for="idC">id_categorie</label>
+                                    <input type="int" class="form-control" name="idC" id="idC" value="<?php echo $associ['idC']; ?>">
+                                </div>
+				  
+				  
+                  <div class="form-group">
+                                    <label for="nom_produit">nom_produit</label>
+                                    <input type="string" class="form-control" name="nom_produit" id="nom_produit" value="<?php echo $associ['nom_produit']; ?>">
+                                </div>
+				  
+				  <!-- Categorie-->
 				   <div class="form-group">
-                    <label>Description</label>
-                    <input class="form-control" name="descriptionc"  id="descriptionc" placeholder="entrer la categorie" required>
-                  </div>
+                                    <label for="categorie">categorie</label>
+                                    <input type="string" class="form-control" name="categorie" id="categorie" value="<?php echo $associ['categorie']; ?>">
+                                </div>
+				  
+				  <!-- Prix-->
+				  <div class="form-group">
+                                    <label for="prix">prix</label>
+                                    <input type="float" class="form-control" name="prix" rows="10" value="<?php echo $associ['prix']; ?>" >
+                                </div>
+				  
+				  <!-- Quantité-->
+				   <div class="form-group">
+                                    <label for="quantite">quantite</label>
+                                    <input type="int" class="form-control" name="quantite" value="<?php echo $associ['quantite']; ?>">
+                                </div>
+		
+		
+		          
+		          <!-- Image -->
 				  
 				  
-                 <!-- <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                  </div>
-                  
-                  <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <div class="input-group">
-					
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                      </div>
-					  
-                      <div class="input-group-append">
-                        <span class="input-group-text">Upload</span>
-                      </div>
-					  
-                    </div>
-					
-                  </div>
-				  -->
-				  
-				  <!--
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                  </div>
-				  
-                
-				-->
+				  <div class="row form-group">
+                                    <div class="col col-md-3"><label for="file-input" class=" form-control-label">Image</label></div>
+                                    <input type="file" id="file-input" name="image" class="form-control-file" value= "<?php echo $associ['image']; ?>">
+                     					 </div>
+				
+				
                 <!-- /.card-body -->
-                </div>
                 
+                 <!--
                 <div class="card-footer">
-                  <button type="submit" value="envoyer" class="btn btn-primary">Ajouter</button>
+                  <button type="submit" value="envoyer" class="btn btn-primary" onclick="ajout()">Ajouter</button>
+				  
                 </div>
+				-->
+				<button type="submit" value="Envoyer" class="btn btn-primary" >Submit</button>
 				
               </form>
 			  
             </div>
             <!-- /.card -->
 
-
+            
             
           </div>
           <!--/.col (right) -->
@@ -371,7 +429,11 @@ if (
     
   </div>
 
-
+<?php
+                } else {
+                    echo "error de chargement";
+                }
+    ?>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
