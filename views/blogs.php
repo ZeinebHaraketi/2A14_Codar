@@ -1,75 +1,25 @@
 <?php
-    include_once '../Model/Commentaire.php';
-    include_once '../Controller/CommentaireC.php';
+include "../zarga/controller/blogB.php";
+$blog=new blogB();
+$listeblog=$blog->afficherblog();
 
-    include_once '../Controller/blogB.php' ; 
-    include_once '../Model/blog.php' ;
-
-
-    $blogB=new BlogB();
-    $listeUsers=$blogB->afficherblog();
-
-    
-   // include "afficher_blog.php";
-    $blog = new blogB();
-    
-    if (isset($_POST['idB'])) {
-        $blog->affichage_par_id($_POST['idB']);
-       // header('Location:../back/afficher_blog.php');
-    } else {
-        echo 'Erreur : try again';
-        echo $_POST['idB'];
-    
-    }
-    
-
-
-    $error = "";
-
-    // create user
-    $commentaire = null;
-
-    // create an instance of the controller
-    $commentaireC = new CommentaireC();
-    if (
-        isset($_POST["NomC"]) && 
-        isset($_POST["messageC"])
-    ) {
-        if (
-            !empty($_POST["NomC"]) && 
-            !empty($_POST["messageC"])
-        ) {
-            $commentaire = new Commentaire(
-                $_POST['NomC'],
-                $_POST['messageC']
-            );
-            $commentaireC->ajouterCommentaire($commentaire);
-            header('Location:afficherCommentaire.php');
-        }
-        else
-            $error = "Missing information";
-    }
-
-    
 ?>
 
 
-
-
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html lang="en">
 
   <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="assets/images/favicon.ico">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
-    <title>PHPJabbers.com | Free Restaurant Website Template</title>
+    <title>FAGITO</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -78,6 +28,14 @@
     <link rel="stylesheet" href="assets/css/fontawesome.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/owl.css">
+
+<!-- STYLE -->
+
+
+
+
+
+
 
   </head>
 
@@ -136,119 +94,182 @@
         <div class="row">
           <div class="col-md-12">
             <div class="text-content">
-              <h4><i class="fa fa-user"></i>John Doe  &nbsp;&nbsp;&nbsp;&nbsp;  <i class="fa fa-calendar"></i> 12/06/2020 10:30   &nbsp;&nbsp;&nbsp;&nbsp; <i class="fa fa-eye"></i> 114</h4>
-              <h2>Lorem ipsum dolor sit amet, consectetur adipisicing</h2>
+             <h4>Blogs </h4>    
+              <h2>Blog</h2>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
-
-<!-- IMAGE  -->  
-<br>
-<div>
-          <img src="assets/images/Sushi-Rolls-Maki-Sushi-–-Hosomaki-1117-I.jpg" >
-        </div>
-      </div>
-    </div>
-
-    <table border=1 align = 'center'>
-	
-
-    
-
 
     <div class="products">
       <div class="container">
         <div class="row">
-            <div class="col-md-12">
-              <div class="section-heading">
-
-
-              
-     </div>
-            </div>
-
-         
-
-        <br>
-        
-        
-
-    <div class="send-message">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="section-heading">
-              <h2>Leave a Comment</h2>
-            </div>
-          </div>
           <div class="col-md-8">
-            <div class="contact-form">
-            <form action="" method="POST">
-            <table border="1" align="center">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="service-item">
 
-                <tr>
-                    <td>
-                        <label for="NomC">Nom:
-                        </label>
-                    </td>
-                    <td><input type="text" name="NomC" id="NomC" maxlength="20"></td>  
-                </tr>
 
-                   <tr>
-                    <td>
-                        <label for="messageC">Message:
-                        </label>
-                    </td>
-                    <td><input type="messageC" name="messageC" id="messageC" ></td>
-                </tr>
+         <!--       <table id="datatable" class="table table-striped table-bordered" style="width:80%">
+                      <thead>
+                        <tr>
+      
+                          <th>Titre</th>
+                          <th>descrip</th>
+                          <th>Image</th>  
+                        </tr>
+                      </thead>
+                      <tbody>   -->
+                        <?php
+                        /*
+                         require_once"connexion2.php";
+                        $conn=se_connecter();
+                        $query="select * from blog order by TitreB";
+                        
+
+
+                        if(isset($_GET['search']) AND !empty($_GET['search']))
+                        {
+                          $search = htmlspecialchars($_GET['search']);
+                          $query="select * from blog where TitreB like '%".$search."%' order by idB DESC " ;
+
+                        }
+                        $result=$conn->query($query);
+                        $data=$result->fetchAll();
+                        for($i =0;$i<count($data);$i++)
+                        {
+
+                          $idB=$data[$i]["idB"]; 
+                          $TitreB=$data[$i]["TitreB"];
+                          $DescriptionB=$data[$i]["DescriptionB"];
+                          $ImageB=$data[$i]["ImageB"];
+     
+                      echo"<td>".$TitreB."</td>";
+   
+                 }  */
+             ?>    
+
+
+                 <!-- AFFICHAGE DE L'image sur l'inferface FONT  -->
+
+
+        <?php
+				  foreach($listeblog as $row){ 
+
+				  ?>
                
+            
+               <table id="example1" class="table table-striped">
+                    <thead>
+            
+                    <tr>
+                        
+                    </tr>
+                    </thead>
+				  
+                  <tbody>
+                  <td> <?PHP echo '<img src="/CRUD/zarga/back/Admin/'.$row['ImageB'].'" width="200" height="200" />'; ;?>  </td>
+                  <!-- <td> <p> <?php //echo $row['TitreB'];?> </p>  </td>  -->
+
+
+
+                  <!--
+                  <tr>
+                  <td>  <a class="btn btn-primary" href="article.php?idB=<?PHP echo $row['idB']; ?>"> More </a>   </td>
+          </tr> -->
+
+          
+          <td> 
+                     <form method="POST" action="article.php">
+                       
+                     <a class="btn btn-primary" href="article.php?idB=<?PHP echo $row['idB']; ?>"> Show </a>
+                                     
+                     </td>
+
+          </table>
+         
+            <?PHP
+				      }
+		  	         ?>
+
+
+
+            <!--   <<a href="add.php" class="services-item-image"><img src="assets/images/Sushi-Rolls-Maki-Sushi-–-Hosomaki-1117-I.jpg" class="img-fluid" alt=""></a> -->
+
+                  <div class="down-content">
+                  <a href = "affichier_blog.php?= <?php echo [idB] ?> ;" >
+         <!--           <h4><a href="add.php">  <?PHP  // echo"<td><img src=".$ImageB." alt='img' width='50' height='50'></td>";            ?>                    </a></h4>      --> 
+
+                    <!--   <p style="margin: 0;"> John Doe &nbsp;&nbsp;|&nbsp;&nbsp; 12/06/2020 10:30 &nbsp;&nbsp;|&nbsp;&nbsp; 114</p> --> 
+                  </div>
+                </div>
+                </a>
+              </div>
+               
+
+
+
+
+          
+
+           
+
+
+
+
+
+
+
               
-                
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type="submit" value="Envoyer"> 
-                    </td>
-                    <td>
-                        <input type="reset" value="Annuler" >
-                    </td>
-                </tr>
-            </table>
-        </form>
+              
+             
+
+              <div class="col-md-12">
+                <ul class="pages">
+                  <li><a href="#">1</a></li>
+                  <li class="active"><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#">4</a></li>
+                  <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                </ul>
+              </div>
             </div>
           </div>
 
           <div class="col-md-4">
-              <div class="left-content">
+            <div class="contact-form">
+              <div class="form-group">
+                <h5>Blog Search</h5>
+              </div>
 
-            
+              <div class="row">
+                <div class="col-8">
+                  <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
+                </div>
 
-                <br> 
-
-
-                <!-- 
-                <ul class="social-icons">
-                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                  <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                </ul>
+                <div class="col-4">
+                  <button class="filled-button" type="button">Go</button>
+                </div>
               </div>
             </div>
+
+            <div class="form-group">
+              <h5>Lorem ipsum dolor sit amet</h5>
+            </div>
+
+          <!--      <p><a href="add.php">Lorem ipsum dolor sit amet, consectetur adipisicing.</a></p>        -->
+          </div>
         </div>
       </div>
     </div>
--->
+
     <footer>
       <div class="container">
         <div class="row">
           <div class="col-md-12">
             <div class="inner-content">
-              <p>Copyright © 2021 FAGITO </a></p>
+              <p>Copyright © 2021 FAGITO </p>
             </div>
           </div>
         </div>
