@@ -3,7 +3,12 @@ include "controller/produitC.php";
 $produitC=new produitC();
 $listeproduit=$produitC->afficherproduit();
 
-
+if(isset($_GET['recherche']))
+                       {
+                        $search_value=$_GET["recherche"];
+                        
+                        $listeproduit= $produit->recherche($search_value);
+                        }
 ?>
 
 
@@ -96,14 +101,36 @@ $listeproduit=$produitC->afficherproduit();
       </div>
     </div>
 
-    
-	
 	
     <div class="products">
+	 <!-- Recherche-->
+			 
+			           <div class="form-group">
+                            <div class="input-group input-group-lg">
+                                <!--<input type="search" class="form-control form-control-lg" placeholder="entrer votre produit" value="">
+								-->
+
+                                   <form method="get" action="menu.php"  class="mb-4">
+                                   <input type="text" class="form-control" name="recherche" placeholder="produit">
+                                   <br>
+                                   <input type="submit" class="btn btn-primary "  value="Chercher">
+                                   <style>
+							                  	  input{
+                                        margin: 13px 12px 12px 10px;
+										
+                                        }
+								                    </style>
+                                    </form>
+
+                            
+
+                                
+                            </div>
+                        </div>
 	<?php
 				  foreach($listeproduit as $row){
 				  ?>
-		    
+		
       <div class="container">
 	     <!--  /card -->
           <div class="card2">
@@ -195,7 +222,7 @@ $listeproduit=$produitC->afficherproduit();
 	
 	
 	
-	</footer>
+	
 	<hr>
 	
 
@@ -214,7 +241,7 @@ $listeproduit=$produitC->afficherproduit();
           </div>
  
     </div>  
-		  
+	</footer>	  
         </div>
 
     <br>
