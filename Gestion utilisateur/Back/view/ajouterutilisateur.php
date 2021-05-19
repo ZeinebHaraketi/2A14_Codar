@@ -9,7 +9,7 @@
     if (
        isset($_POST["nomutilisateur"]) && 
         isset($_POST["prenomutilisateur"]) &&
-		 isset($_POST["eadresseutilisateur"]) && 
+		isset($_POST["eadresseutilisateur"]) && 
         isset($_POST["dateutilisateur"]) && 
 		
         isset($_POST["loginutilisateur"]) && 
@@ -36,17 +36,17 @@
             );
 		   
 			$utilisateurC->ajouterutilisateur($utilisateur);
-           // header('Location:afficherPatient.php');
+       
 		   $status = "<p style='color:#FFFFFF; font-size:20px'>
             <span style='background-color:#46ab4a;'>Votre code captcha est correct.</span></p>";
-			echo "<script>alert(\"Inscription effectuée\")</script>"; 
+			echo "Inscrit avec succès! Vous pouvez vous connecter <a href='login.php'>Cliquez ici</a>.";
         }else {
             echo "<br>";echo "<br>";echo "<br>";echo "<br>";echo "<br>";echo "<br>";
            
             if(preg_match ( " /^[a-zA-Z]{2,}$/ " , $_POST['nomutilisateur'] )==0){echo 'Le nom doit contenir que des lettres '; echo "<br>";}
             if(preg_match ( " /^[a-zA-Z]{2,}$/ " , $_POST['prenomutilisateur'] )==0){echo 'Le prenom doit contenir que des lettres '; echo "<br>";}
             if(preg_match ( ' /^.+@.+\.[a-zA-Z]{2,}$/ '  , $_POST['loginutilisateur'] )==0){echo 'L email est incorrect '; echo "<br>";} 
-			if(preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W)#' , $_POST['mdputilisateur'] )==0) { echo 'Mot de passe non valide';}
+			if(preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W){1,8}$#' , $_POST['mdputilisateur'] )==0) { echo 'Mot de passe non valide doit contenir un caractere une lettre en MAJ avec un minimum de 1 caractère et de 10 maximum.';}
 			else {
 				echo 'Mot de passe valide';
 				}  
@@ -55,6 +55,7 @@
         else
             $error = "Missing information";
 	}
+	
 	
 		
 				
@@ -110,27 +111,15 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home
-                      <span class="sr-only">(current)</span>
-                    </a>
-                </li> 
+               
 
-                <li class="nav-item"><a class="nav-link" href="book-table.html">Book A Table</a></li>
+               
 
-                <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
+               
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">More</a>
-                    
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="about-us.html">About Us</a>
-                      <a class="dropdown-item" href="blog.html">Blog</a>
-                      <a class="dropdown-item" href="testimonials.html">Testimonials</a>
-                    </div>
-                </li>
                 
-                <li class="nav-item active"><a class="nav-link" href="index.php">Compte</a></li>
+                
+               
             </ul>
           </div>
         </div>
@@ -171,7 +160,7 @@
                                                     <label class="small mb-1" for="nom"><b>Nom:</b></label>
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="text" name="nomutilisateur" id="nomutilisateur" maxlength="20" placeholder="Entrer le nom" >
+                                                    <input class="form-control" type="text" name="nomutilisateur" id="nomutilisateur" maxlength="20" placeholder="Entrer le nom" required>
                                                 </td>
                                             </tr>
 
@@ -180,7 +169,7 @@
                                                     <label class="small mb-1" for="prenom"><b>Prénom:</b></label>
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="text" name="prenomutilisateur" id="prenomutilisateur" maxlength="20" placeholder="Entrer le prenom">
+                                                    <input class="form-control" type="text" name="prenomutilisateur" id="prenomutilisateur" maxlength="20" placeholder="Entrer le prenom" required>
                                                 </td>
                                             </tr>
 
@@ -191,7 +180,7 @@
                                             <tr>
                                              
 												 <td>
-                                                    <label class="small mb-1" for="dateutilisateur"><b>date de naissance:</b></label>
+                                                    <label class="small mb-1" for="dateutilisateur"><b>Date de naissance:</b></label>
                                                 </td>
                                                 <td>
                                                     <input  class="form-control" type="date" name="dateutilisateur" id="dateutilisateur">
@@ -202,16 +191,16 @@
                                                     <label class="small mb-1" ><b>Adresse :</b></label>
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="text" name="eadresseutilisateur" id="eadresseutilisateur"  placeholder="Entrer l'adresse">
+                                                    <input class="form-control" type="text" name="eadresseutilisateur" id="eadresseutilisateur"  placeholder="Entrer l'adresse" required>
                                                 </td>
                                             </tr>
 
                                             <tr>
                                                 <td>
-                                                    <label class="small mb-1" for="login"><b>Login:</b></label>
+                                                    <label class="small mb-1" for="login"><b>Adresse e-mail:</b></label>
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="email" name="loginutilisateur" id="loginutilisateur" placeholder="E-Mail">
+                                                    <input class="form-control" type="email" name="loginutilisateur" id="loginutilisateur" placeholder="E-Mail" required>
                                                 </td>
                                             </tr>
 
@@ -220,7 +209,7 @@
                                                     <label class="small mb-1" for="password"><b>Mot de passe:</b></label>
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="password" name="mdputilisateur" id="mdputilisateur" placeholder="Entrer le mot de passe">
+                                                    <input class="form-control" type="password" name="mdputilisateur" id="mdputilisateur" placeholder="Entrer le mot de passe" required>
                                                 </td>
                                             </tr>
 
@@ -228,8 +217,9 @@
                                 </div>
 								 <tr> 
                 <td> 
+													<label class="small mb-1" for="captcha"><b>Captcha:</b></label>
                                                  <img src="captcha.php"/></td>
-                                                <td><input class="form-control" type="text" name="captcha"/></td></tr>
+                                                <td><input class="form-control" type="text" name="captcha"/> </td></tr>
                                  <tr align="center">
 											
                                                 <td> </td>
@@ -237,7 +227,7 @@
                                                 <td>
 												<br>
                                   
-    <button  class="btn btn-danger"  style="background-color:#dc3545 ">Envoyer</button>
+    <button  class="btn btn-danger"  style="background-color:#dc3545 ">Valider</button>
 	<button   class="btn btn-danger"  style="background-color:#dc3545 ">Annuler</button>
 		
                                                 </td>

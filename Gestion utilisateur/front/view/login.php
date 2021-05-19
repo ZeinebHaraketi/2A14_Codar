@@ -6,6 +6,9 @@
         $loginutilisateur=$_POST['loginutilisateur'];
         $mdputilisateur=$_POST['mdputilisateur'];
         $sql="SELECT * FROM utilisateur WHERE loginutilisateur='" . $loginutilisateur . "' && mdputilisateur = '". $mdputilisateur."'";
+		 
+		
+		
 		
         $db = config::getConnexion();
         try{
@@ -14,11 +17,11 @@
             $count=$query->rowCount();
             if($count==1){
                 $utilisateur=$query->fetch();
-
                 $_SESSION['nomutilisateur'] = $utilisateur['nomutilisateur'];
-
                 $_SESSION['idutilisateur'] = $utilisateur['idutilisateur'];
-                              if( $_SESSION['nomutilisateur']=='admin'){header('Location:../index.php');}
+				
+                              if( $_SESSION['nomutilisateur']=='admin'){header('Location:/fagito/template/pages/utilisateur/view/afficherutilisateur.php');
+							 }
 
              else{  header('Location:../index.php');}
 
@@ -77,27 +80,9 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home
-                      <span class="sr-only">(current)</span>
-                    </a>
-                </li> 
-
-                <li class="nav-item"><a class="nav-link" href="book-table.html">Book A Table</a></li>
-
-                <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">More</a>
-                    
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="about-us.html">About Us</a>
-                      <a class="dropdown-item" href="blog.html">Blog</a>
-                      <a class="dropdown-item" href="testimonials.html">Testimonials</a>
-                    </div>
-                </li>
+               
                 
-                <li class="nav-item active"><a class="nav-link" href="index.php">Compte</a></li>
+               
             </ul>
           </div>
         </div>
@@ -155,8 +140,11 @@
                 </div>
 			<br>
               </form>
-			   <div align="left"> <a  href="ajouterutilisateur.php" style="color:#0F056B"> <u>Inscription </u></a> </div>
-				<div align="left"> <a href="mdp.html" style="color:#0F056B"><u> Mot de passe oublié ! </u> </a> </div>
+			 
+				<div align="left"> <a href="../../../PHPMailer_5.2.0/test/phpmailerTest.php" style="color:#0F056B"><u> Mot de passe oublié ! </u> </a> </div>
+				 	
+					  
+				<p>si vous n'avez pas de compte ! </p>	<div align="left"> <a href="ajouterutilisateur.php" style="color:#0F056B"><u>inscription</u> </a> </div>
             </div>
           </div>
 		  <div class="col-md-4">

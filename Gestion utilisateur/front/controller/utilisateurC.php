@@ -109,8 +109,42 @@ class utilisateurC
         return $listeutilisateur ;
 
       } catch (Exception $e) {die ('erreur : '.$e->getMessage());}
+	  
+	  function recupererutilisateur1($idutilisateur){
+			$sql="SELECT * from Utilisateur where idutilisateur=$idutilisateur";
+			$db = config::getConnexion();
+			try{
+				$query=$db->prepare($sql);
+				$query->execute();
+				
+				$user = $query->fetch(PDO::FETCH_OBJ);
+				return $utilisateur;
+			}
+			catch (Exception $e){
+				die('Erreur: '.$e->getMessage());
+			}
+		}
     
-     }	    
+     }	
+	function connexionUser($loginutilisateur,$mdputilisateur){
+            $sql="SELECT * FROM Utilisateur WHERE loginutilisateur='" . $loginutilisateur . "' and mdputilisateur = '". $mdputilisateur."'";
+            $db = config::getConnexion();
+            try{
+                $query=$db->prepare($sql);
+                $query->execute();
+                $count=$query->rowCount();
+                if($count==0) {
+                    $message = "pseudo ou le mot de passe est incorrect";
+                } else {
+                    $x=$query->fetch();
+                    $message = $x['role'];
+                }
+            }
+            catch (Exception $e){
+                    $message= " ".$e->getMessage();
+            }
+          return $message;
+        }	 
 
 
 }

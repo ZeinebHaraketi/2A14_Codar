@@ -9,7 +9,7 @@
     if (
        isset($_POST["nomutilisateur"]) && 
         isset($_POST["prenomutilisateur"]) &&
-		 isset($_POST["eadresseutilisateur"]) && 
+		isset($_POST["eadresseutilisateur"]) && 
         isset($_POST["dateutilisateur"]) && 
 		
         isset($_POST["loginutilisateur"]) && 
@@ -36,10 +36,10 @@
             );
 		   
 			$utilisateurC->ajouterutilisateur($utilisateur);
-           // header('Location:afficherPatient.php');
+       
 		   $status = "<p style='color:#FFFFFF; font-size:20px'>
             <span style='background-color:#46ab4a;'>Votre code captcha est correct.</span></p>";
-			echo "<script>alert(\"Inscription effectuée\")</script>"; 
+			echo "Inscrit avec succès! Vous pouvez vous connecter <a href='login.php'>Cliquez ici</a>.";
         }else {
             echo "<br>";echo "<br>";echo "<br>";echo "<br>";echo "<br>";echo "<br>";
            
@@ -55,6 +55,7 @@
         else
             $error = "Missing information";
 	}
+	
 	
 		
 				
@@ -110,27 +111,15 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home
-                      <span class="sr-only">(current)</span>
-                    </a>
-                </li> 
+               
 
-                <li class="nav-item"><a class="nav-link" href="book-table.html">Book A Table</a></li>
+               
 
-                <li class="nav-item"><a class="nav-link" href="login.php">Menu</a></li>
+               
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">More</a>
-                    
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="about-us.html">About Us</a>
-                      <a class="dropdown-item" href="blog.html">Blog</a>
-                      <a class="dropdown-item" href="testimonials.html">Testimonials</a>
-                    </div>
-                </li>
                 
-                <li class="nav-item active"><a class="nav-link" href="index.php">s'inscrire</a></li>
+                
+               
             </ul>
           </div>
         </div>
@@ -228,8 +217,9 @@
                                 </div>
 								 <tr> 
                 <td> 
+													<label class="small mb-1" for="captcha"><b>Captcha:</b></label>
                                                  <img src="captcha.php"/></td>
-                                                <td><input class="form-control" type="text" name="captcha"/></td></tr>
+                                                <td><input class="form-control" type="text" name="captcha"/> </td></tr>
                                  <tr align="center">
 											
                                                 <td> </td>
@@ -237,7 +227,7 @@
                                                 <td>
 												<br>
                                   
-    <button  class="btn btn-danger"  style="background-color:#dc3545 ">Envoyer</button>
+    <button  class="btn btn-danger"  style="background-color:#dc3545 ">Valider</button>
 	<button   class="btn btn-danger"  style="background-color:#dc3545 ">Annuler</button>
 		
                                                 </td>
@@ -250,14 +240,7 @@
                                     </form>
                                    
    
-                                <!--<div class="btn btn-primary btn-block" onclick="myFunction()" >Imprimer la page</div>
-                               
-                                <script>
-                                function myFunction() {
-                                    window.print();
-                                }
-                                </script>
-								-->
+                              
                             </div>
                        
                         </div>

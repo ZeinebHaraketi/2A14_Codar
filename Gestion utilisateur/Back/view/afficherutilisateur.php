@@ -49,18 +49,7 @@
     } 
 
     $listeutilisateur=$utilisateurC->afficherutilisateur();
-	/*recherche*/
-	$bdd=new PDO('mysql:host=localhost;dbname=fagito', 'root', '',);
-	$listeutilisateur= $bdd->query('SELECT * FROM utilisateur ORDER BY idutilisateur');
-	if (isset ($_GET['s']) AND !empty($_GET['s'])){
-      $recherche =	htmlspecialchars($_GET['s']);
-	  $listeutilisateur = $bdd->query('SELECT idutilisateur,nomutilisateur,prenomutilisateur,eadresseutilisateur,dateutilisateur,loginutilisateur,mdputilisateur FROM utilisateur WHERE loginutilisateur LIKE "%' .$recherche .'%" ORDER BY idutilisateur DESC '  ); 
-	}
-	/*Tri*/
-	if (isset($_POST['ASC'])) {
-        $utilisateurC=new utilisateurC();
-        $listeutilisateur = $utilisateurC->afficherutilisateurtri();
-    }
+	
 	
 	
  ?>
@@ -72,25 +61,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fagito | Dashboard</title>
 
-  <!-- Google Font: Source Sans Pro -->
+  
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
+
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
+
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bootstrap 4 -->
+  
   <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  <!-- iCheck -->
+ 
   <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- JQVMap -->
+  
   <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
-  <!-- Theme style -->
+ 
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  <!-- overlayScrollbars -->
+
   <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Daterange picker -->
+
   <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
-  <!-- summernote -->
+
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -138,7 +127,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Fagito</span>
+      <span class="brand-text font-weight-light">Admin</span>
     </a>
 
     <!-- Sidebar -->
@@ -170,11 +159,11 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
+          <li class="nav-item menu-closed">
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Fagito
+                Admin
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -185,18 +174,179 @@
                   <p>Gestion utilisateur</p>
                 </a>
               </li>
+            </ul>
+          </li>
+		    <li class="nav-item menu-closed">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-table"></i>  
+              <p>
+                Produit/Categorie
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
+                <a href="afficher_produit.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v2</p>
+                  <p> Afficher produit</p>
                 </a>
               </li>
+			  
               <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
+                <a href="ajouter_produit.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
+                  <p>Ajouter produit</p>
+                </a>
+              </li> 
+			  <li class="nav-item">
+                <a href="afficher_categ.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Afficher categorie</p>
                 </a>
               </li>
+			  <li class="nav-item">
+                <a href="ajouter_categ.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ajouter categorie</p>
+                </a>
+              </li> 
+			  
+            </ul>
+          </li> 
+		     <li class="nav-item menu-closed">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-table"></i>  
+              <p>
+                Carte/Offre
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="afficher_carte.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Afficher carte</p>
+                </a>
+              </li>
+			  
+              <li class="nav-item">
+                <a href="afficher_offre.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Afficher offre</p>
+                </a>
+              </li> 
+			  <li class="nav-item">
+                <a href="ajouter_offre.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ajouter offre</p>
+                </a>
+              </li>
+			
+			  
+            </ul>
+          </li>
+		   </li> 
+		     <li class="nav-item menu-closed">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-table"></i>  
+              <p>
+                Reservation/Resto
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="afficher_resto.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Afficher resto</p>
+                </a>
+              </li>
+			  
+              <li class="nav-item">
+                <a href="ajouter_resto.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ajouter resto</p>
+                </a>
+              </li> 
+			  <li class="nav-item">
+                <a href="afficher-reser.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Afficher Reservation</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+		       <li class="nav-item menu-closed">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-table"></i>  
+              <p>
+                Commande/Livraison
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="afficher_commande.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Afficher commande</p>
+                </a>
+              </li>
+			    <li class="nav-item">
+                <a href="ajouter_commande.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ajouter commande</p>
+                </a>
+              </li>
+			  
+              <li class="nav-item">
+                <a href="ajouter_livraison.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ajouter livraison</p>
+                </a>
+              </li> 
+			  <li class="nav-item">
+                <a href="afficher_livraison.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Afficher livraison</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+		    <li class="nav-item menu-closed">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-table"></i>  
+              <p>
+                Blog/Commentaire
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="afficher_blog.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Afficher blog</p>
+                </a>
+              </li>
+			  
+              <li class="nav-item">
+                <a href="Admin/AjouterBlog.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ajouter blog</p>
+                </a>
+              </li> 
+			  <li class="nav-item">
+                <a href="afficher_commentaire.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Afficher commentaire</p>
+                </a>
+              </li>
+			  <li class="nav-item">
+                <a href="ajouter_commentaire.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ajouter commentaire</p>
+                </a>
+              </li> 
+			  
             </ul>
           </li>
           
@@ -285,8 +435,12 @@
                 <div class="card-body">
                   <h4 class="card-title">Liste des utilisateurs</h4>
                   
-                  <div class="table-responsive pt-3">
-                  
+                  <div class="table-responsive pt-3" >
+				  
+                    <!--PDF-->
+					<a  href="export.php"class="btn btn-warning" >Exporter les données</a>
+					<br>
+					<hr>
                   
                     <table class="table table-bordered">
                       <thead>
@@ -342,30 +496,7 @@
                           }
                         ?>
                       </tbody>
-					  				 <!--tri--> 
-					  <form action="afficherutilisateur.php" method="post">
-			<input type="submit" name="ASC" value="Ascending">
-			
-			</form>
-					 <!--recherche-->
-					              <form method="GET">
-     <input type="search" name="s" placeholder="Recherche utilisateur">
-     <input type="submit" name="envoyer" >
-     </form>
-       
-	   <section>
-	   <?PHP
-	   if($listeutilisateur->rowCount()>0)
-	   { while($utilisateur =$listeutilisateur ->fetch()){
-		   ?>
-		   <?PHP
-	   } }else {
-		   ?>
-		   <p>Utilisateur introuvable </p>
-		   <?PHP
-	   }
-	   ?>
-	   </section>
+					  				
 	   
                     </table>
     <!-- /.content-header -->
@@ -375,15 +506,7 @@
     <!-- /.content -->
   </div>
   
-  <!--imprimer-->
-  <br>
- <div class="btn btn-primary mr-2" onclick="myFunction()" >Imprimer la page</div>
-                                
-                                <script>
-                                function myFunction() {
-                                    window.print();
-                                }</script>
-							
+  
   <footer class="main-footer">
    
    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">Fagito.com</a>.</strong>

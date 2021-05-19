@@ -100,17 +100,7 @@ class utilisateurC
 				die('Erreur: '.$e->getMessage());
 			}
 		}
-	
-    public function afficherutilisateurtri()
-    {  $sql= " SELECT * FROM utilisateur order by idutilisateur DESC " ; 
-      $db = config ::getConnexion();
-      try{
-        $listeutilisateur = $db->query($sql);
-        return $listeutilisateur ;
-
-      } catch (Exception $e) {die ('erreur : '.$e->getMessage());}
-    
-     }	 
+		 
  	 
 
 

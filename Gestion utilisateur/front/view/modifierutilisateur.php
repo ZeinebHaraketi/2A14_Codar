@@ -8,10 +8,8 @@
 	if (
         isset($_POST["nomutilisateur"]) && 
         isset($_POST["prenomutilisateur"]) &&
-		   isset($_POST["eadresseutilisateur"]) &&
+		isset($_POST["eadresseutilisateur"]) &&
 		isset($_POST["dateutilisateur"]) &&
-     
-		
 		isset($_POST["loginutilisateur"]) &&
 		isset($_POST["mdputilisateur"]) 
        
@@ -21,8 +19,6 @@
             !empty($_POST["prenomutilisateur"]) && 
 			!empty($_POST["eadresseutilisateur"]) && 
 			!empty($_POST["dateutilisateur"]) && 
-            
-			
 			!empty($_POST["loginutilisateur"]) && 
 			!empty($_POST["mdputilisateur"])  
            
@@ -31,9 +27,8 @@
             $utilisateur = new utilisateur(
                 $_POST['nomutilisateur'],
                 $_POST['prenomutilisateur'], 
-              	  $_POST['eadresseutilisateur'],
+              	$_POST['eadresseutilisateur'],
 				$_POST['dateutilisateur'],
-			
 				$_POST['loginutilisateur'],
 				$_POST['mdputilisateur']
             
